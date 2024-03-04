@@ -22,11 +22,19 @@ public class Post {
     @GeneratedValue
     private Long postId;
 
-    private String uNickname;
+    private String u_nickname;
 
-    private Long fId; // 사진
+    private String category;
 
-    private String category; // 카테고리
-    private LocalDateTime pDate;
+    private String p_title;
 
+    private String p_content;
+
+    private LocalDateTime p_date;
+
+    public void update(String p_title, String p_content, String category) {
+        this.p_title = p_title;
+        this.p_content = p_content;
+        this.category = category;
+    }
 }

@@ -12,20 +12,14 @@ public class CreatePostResponseDTO {
 
     private Long postId;
 
-    private String uNickname;
-
-    private Long fId;
+    private String u_nickname;
 
     private String category;
 
-    private Long cId;
+    private String p_title;
 
-    private String pTitle;
+    private String p_content;
 
-    private String pContent;
-
-    private Long pViews;
-
-    private LocalDateTime pDate;
+    private LocalDateTime p_date;
 
 }

@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UpdatePostRequestDTO {
 
-    private String pTitle;
+    private String p_title;
 
-    private String pContent;
+    private String p_content;
 
     private String category;
 
