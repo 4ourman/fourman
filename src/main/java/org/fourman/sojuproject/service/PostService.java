@@ -2,9 +2,7 @@ package org.fourman.sojuproject.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.fourman.sojuproject.domain.dto.post.CreatePostRequestDTO;
-import org.fourman.sojuproject.domain.dto.post.CreatePostResponseDTO;
-import org.fourman.sojuproject.domain.dto.post.ReadPostResponseDTO;
+import org.fourman.sojuproject.domain.dto.post.*;
 import org.fourman.sojuproject.domain.entity.Post;
 import org.fourman.sojuproject.reposittory.PostRepository;
 import org.springframework.stereotype.Service;
@@ -47,5 +45,17 @@ public class PostService {
 
         return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getU_nickname(), foundPost.getCategory(), foundPost.getP_title(), foundPost.getP_content(), foundPost.getP_date());
 
+    }
+
+    // 게시물 수정
+    @Transactional
+    public UpdatePostResponseDTO updatePost(Long postId, UpdatePostRequestDTO requestDTO) {
+
+        Post foundPost = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 postId로 조회된 게시글이 없습니다."));
+
+        foundPost.update(requestDTO.getP_title(), requestDTO.getP_content(), requestDTO.getCategory());
+
+        return new UpdatePostResponseDTO(foundPost.getPostId(), foundPost.getU_nickname(), foundPost.getCategory(), foundPost.getP_title(), foundPost.getP_content(), foundPost.getP_date());
     }
 }

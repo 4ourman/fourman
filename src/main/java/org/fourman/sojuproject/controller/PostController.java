@@ -2,9 +2,7 @@ package org.fourman.sojuproject.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.fourman.sojuproject.domain.dto.post.CreatePostRequestDTO;
-import org.fourman.sojuproject.domain.dto.post.CreatePostResponseDTO;
-import org.fourman.sojuproject.domain.dto.post.ReadPostResponseDTO;
+import org.fourman.sojuproject.domain.dto.post.*;
 import org.fourman.sojuproject.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +28,15 @@ public class PostController {
     public ResponseEntity<ReadPostResponseDTO> postRead(@PathVariable Long postId) {
 
         ReadPostResponseDTO responseDTO = postService.readPostById(postId);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<UpdatePostResponseDTO> postUpdate(@PathVariable Long postId, @RequestBody UpdatePostRequestDTO requestDTO) {
+
+        UpdatePostResponseDTO responseDTO = postService.updatePost(postId, requestDTO);
 
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 

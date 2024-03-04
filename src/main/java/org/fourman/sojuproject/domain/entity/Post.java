@@ -32,4 +32,9 @@ public class Post {
 
     private LocalDateTime p_date;
 
+    public void update(String p_title, String p_content, String category) {
+        this.p_title = p_title;
+        this.p_content = p_content;
+        this.category = category;
+    }
 }

@@ -1,9 +1,7 @@
 package org.fourman.sojuproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fourman.sojuproject.domain.dto.post.CreatePostRequestDTO;
-import org.fourman.sojuproject.domain.dto.post.CreatePostResponseDTO;
-import org.fourman.sojuproject.domain.dto.post.ReadPostResponseDTO;
+import org.fourman.sojuproject.domain.dto.post.*;
 import org.fourman.sojuproject.service.PostService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +15,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,10 +48,10 @@ public class PostControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.postId").value(1L))
-                .andExpect(jsonPath("$.unickname").value("테스트 닉네임"))
+                .andExpect(jsonPath("$.u_nickname").value("테스트 닉네임"))
                 .andExpect(jsonPath("$.category").value("테스트 카테고리"))
-                .andExpect(jsonPath("$.ptitle").value("테스트 제목")) // 수정된 부분
-                .andExpect(jsonPath("$.pcontent").value("테스트 내용")) // 수정된 부분
+                .andExpect(jsonPath("$.p_title").value("테스트 제목")) // 수정된 부분
+                .andExpect(jsonPath("$.p_content").value("테스트 내용")) // 수정된 부분
                 .andDo(print());
     }
 
@@ -76,6 +73,32 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.p_title").value("테스트 제목"))
                 .andExpect(jsonPath("$.p_content").value("테스트 내용"))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("게시물 수정 기능 테스트")
+    void update_post_test() throws Exception {
+
+        //given
+        Long postId = 1L;
+        UpdatePostRequestDTO requestDTO = new UpdatePostRequestDTO("수정 제목", "수정 내용", "수정 카테고리");
+        UpdatePostResponseDTO responseDTO = new UpdatePostResponseDTO(1L, "sinbob99", "수정 카테고리", "수정 제목", "수정 내용", LocalDateTime.now());
+
+        given(postService.updatePost(any(), any())).willReturn(responseDTO);
+
+        // when & then
+        mockMvc.perform(put("/api/v1/posts/{postId}", postId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(requestDTO))
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.postId").value(1L))
+                .andExpect(jsonPath("$.u_nickname").value("sinbob99"))
+                .andExpect(jsonPath("$.category").value("수정 카테고리"))
+                .andExpect(jsonPath("$.p_title").value("수정 제목"))
+                .andExpect(jsonPath("$.p_content").value("수정 내용"))
+                .andDo(print());
+
     }
 
 }
