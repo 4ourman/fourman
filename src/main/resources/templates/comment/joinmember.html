@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    </head>
+    <div id="joinBox" class="container">
+        <div class="row">
+            <div class="col-lg-12 join-title">회원가입</div>
+            <form>
+                <div class="form-group" style="margin: 80px 40px;">
+                    <label class="form-control-label">이&nbsp&nbsp&nbsp&nbsp&nbsp름</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group" style="margin: 80px 40px;">
+                    <label class="form-control-label">생년월일</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group" style="margin-left:105px;">
+                    <label class="form-control-label">전화번호</label>
+                    <input type="text" class="form-control">
+                    <button>중복확인</button>
+                </div>
+                <div class="joinbtn">
+                    <button style="margin-top: 20px;">본인인증</button>
+                </div>
+                <div class="joinbtn">
+                    <button type="button" id="joinNext" style="margin-top: 30px;">다음</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="joinBox2" class="container">
+        <div class="row">
+            <div class="col-lg-12 join-title">회원가입</div>
+            <form>
+                <div class="form-group" style="margin: 47.5px 145px;">
+                    <label class="form-control-label">닉&nbsp네&nbsp임</label>
+                    <input type="text" class="form-control">
+                    <button style="position:absolute">중복확인</button>
+                </div>
+                <div class="form-group" style="margin: 47.5px 145px;">
+                    <label class="form-control-label">아&nbsp이&nbsp디</label>
+                    <input type="text" class="form-control">
+                    <button style="position:absolute">중복확인</button>
+                </div>
+                <div class="form-group" style="margin: 47.5px 105px;">
+                    <label class="form-control-label">비밀번호</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group" style="margin: 0 40px;">
+                    <label class="form-control-label">주&nbsp&nbsp&nbsp&nbsp&nbsp소</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="joinbtn">
+                    <button style="margin-top: 20px;">회원가입</button>
+                </div>
+                <div class="joinbtn">
+                    <button style="margin-top: 30px;">다음</button>
+                </div>
+            </form>
+        </div>
+    </div>
+<script src="js/joinjs.js"></script>
+</html>
+<style>
+    body {
+        background: #222D32;
+        font-family: 'Roboto', sans-serif;
+    }
+</style>

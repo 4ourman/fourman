@@ -1,5 +1,8 @@
 package org.fourman.sojuproject.controller;
 
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.fourman.sojuproject.domain.dto.post.*;
@@ -12,12 +15,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping("/main")
+    public String mainpage(){
+        return "/comment/main";
+    }
+
+    @GetMapping("/joinmember")
+    public String joinpage(){
+        return "/comment/joinmember";
+    }
+
+    @GetMapping("/createpost")
+    public String createpost(){
+        return "/comment/createpost";
+    }
 
     @PostMapping
     @Operation(summary = "게시글 작성", description = "여러 필드 입력")

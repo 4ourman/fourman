@@ -1,0 +1,217 @@
+/* header */
+.title {
+    min-width:900px;
+    height:220px;
+    margin-left:-10px;
+    margin-top:-10px;
+}
+
+.title-img{
+    width:100%;
+    height:100%;
+}
+
+.title-text{
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    color: #74af67;
+    transform: translate( -50%, -50% );
+    font-size: 110px;
+}
+
+.logincontainer {
+    position: fixed;
+    box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;
+    background-color: #e3c188;
+    width: 330px;
+    height: 280px;
+    top:25%;
+    right:15px;
+    border-radius: 10%;
+}
+
+#login1, #login2 {
+    padding: 16px;
+    margin: 8px 50px;
+    width: 60%;
+    border: 0;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff;
+}
+
+.signup{
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 15px 45px;
+    margin: 10px 95px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+    box-shadow: 5px 5px 10px #e3c188, 5px 5px 8px #babebc;
+}
+
+.loginafter button{
+    background-color: white;
+    margin-left:42px;
+    width: 250px;
+    height: 50px;
+    font-size: 26px;
+    border-style:none;
+    border-radius: 20px;
+}
+
+#beforeLogin {
+    display: block;
+}
+
+#afterLogin {
+    display: none;
+}
+
+.form_btn:active {
+    box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
+}
+
+.popularcontainer{
+    position: fixed;
+    width: 330px;
+    height: 380px;
+    top:57%;
+    right:15px;
+    border-radius: 10%;
+    border-width : 1px;
+    border-style: solid;
+}
+
+.mainimg{
+    margin:15px 80px;
+}
+
+.mainimg img{
+    height:175px;
+}
+
+.searchbox{
+    margin:0 80px;
+}
+
+#search{
+    width: 750px;
+    height: 25px;
+}
+
+.categorybtn{
+    margin: 15px 80px;
+}
+
+.categorybtn button{
+    width: 100px;
+    height: 40px;
+    color:red;
+    box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;
+    border-style:none;
+    margin-right:10px;
+}
+
+.postbutton{
+    position:absolute;
+    background-color: #7dcc96;
+    margin: -50px 1250px;
+    width:100px;
+    height: 40px;
+    font-size: 16px;
+    border-style:none;
+    border-radius: 10px;
+}
+
+.categorybtn button:active{
+    box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
+}
+
+.boardcontainer{
+    margin: 15px 80px;
+    width: 1300px;
+    height: 1000px;
+    border-style:solid;
+}
+
+/* joinmember */
+
+.container {
+    margin: 150px 680px;
+    width: 600px;
+    height: 600px;
+    background: #1A2226;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.join-title {
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #ECF0F5;
+}
+
+#joinBox{
+    display: block;
+}
+
+#joinBox2{
+    display: none;
+}
+
+input[type=text],
+input[type=password]{
+    background-color: #1A2226;
+    border: none;
+    border-bottom: 2px solid #0DB8DE;
+    border-top: 0px;
+    border-radius: 0px;
+    font-weight: bold;
+    outline: 0;
+    margin-bottom: 20px;
+    color: #ECF0F5;
+}
+
+.form-group {
+    outline: 0px;
+    text-align: center;
+}
+
+.form-group button{
+    background-color: #81c772;
+    color:white;
+    width:100px;
+    height: 30px;
+    font-size:18px;
+    border-style:none;
+    border-radius: 10px;
+}
+
+.form-control-label {
+    font-size: 22px;
+    margin-left: -30px;
+    color: #6C6C6C;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.joinbtn button{
+    background-color: #81c772;
+    color:white;
+    width:250px;
+    height: 50px;
+    font-size:18px;
+    border-style:none;
+    border-radius: 13px;
+}
+
+/*createpost*/
