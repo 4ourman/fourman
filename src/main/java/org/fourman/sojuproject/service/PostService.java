@@ -1,5 +1,6 @@
 package org.fourman.sojuproject.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.fourman.sojuproject.domain.dto.post.CreatePostRequestDTO;
 import org.fourman.sojuproject.domain.dto.post.CreatePostResponseDTO;
@@ -16,9 +17,10 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class PostService {
 
+    // 상속
     private final PostRepository postRepository;
 
-
+    // 게시글 생성
     @Transactional
     public CreatePostResponseDTO createPost(CreatePostRequestDTO requestDTO) {
 
@@ -37,4 +39,13 @@ public class PostService {
 
     }
 
+    // 게시글 조회
+    public ReadPostResponseDTO readPostById(Long postId) {
+
+        Post foundPost = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 postId로 조회된 게시글이 없습니다."));
+
+        return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getU_nickname(), foundPost.getCategory(), foundPost.getP_title(), foundPost.getP_content(), foundPost.getP_date());
+
+    }
 }
