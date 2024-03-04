@@ -4,6 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.fourman.sojuproject.domain.dto.post.*;
 import org.fourman.sojuproject.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
+    @Operation(summary = "게시글 작성", description = "여러 필드 입력")
     public ResponseEntity<CreatePostResponseDTO> postCreate(@RequestBody CreatePostRequestDTO requestDTO){
 
         CreatePostResponseDTO responseDTO = postService.createPost(requestDTO);
@@ -25,6 +30,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
+    @Operation(summary = "게시글 단일 조회", description = "postId로 게시글 단일 조회")
     public ResponseEntity<ReadPostResponseDTO> postRead(@PathVariable Long postId) {
 
         ReadPostResponseDTO responseDTO = postService.readPostById(postId);
@@ -34,6 +40,7 @@ public class PostController {
     }
 
     @PutMapping("/{postId}")
+    @Operation(summary = "게시글 수정", description = "postId와 request로 게시글 수정")
     public ResponseEntity<UpdatePostResponseDTO> postUpdate(@PathVariable Long postId, @RequestBody UpdatePostRequestDTO requestDTO) {
 
         UpdatePostResponseDTO responseDTO = postService.updatePost(postId, requestDTO);
@@ -42,4 +49,24 @@ public class PostController {
 
     }
 
+    @DeleteMapping("/{postId}")
+    @Operation(summary = "게시글 삭제", description = "postId로 게시글 삭제")
+    public ResponseEntity<DeletePostResponseDTO> postDelete(@PathVariable Long postId) {
+
+        DeletePostResponseDTO responseDTO = postService.deletePost(postId);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+
+    }
+
+    @GetMapping
+    @Operation(summary = "게시글 전체 조회", description = "postId로 게시글 전체 조회")
+    public ResponseEntity<Page<ReadPostResponseDTO>> postReadAll (
+            @PageableDefault(size = 5, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<ReadPostResponseDTO> readPostResponseDTOS = postService.readAllPost(pageable);
+
+        return new ResponseEntity<>(readPostResponseDTOS, HttpStatus.OK);
+
+    }
 }

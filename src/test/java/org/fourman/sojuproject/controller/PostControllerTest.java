@@ -8,10 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -99,6 +104,48 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.p_content").value("수정 내용"))
                 .andDo(print());
 
+    }
+
+    @Test
+    @DisplayName("게시물 삭제 기능")
+    void delete_post_test() throws Exception {
+        // given
+        Long postId = 1L;
+        DeletePostResponseDTO responseDTO = new DeletePostResponseDTO(1L);
+
+        given(postService.deletePost(any())).willReturn(responseDTO);
+
+        // when & then
+        mockMvc.perform(delete("/api/v1/posts/{postId}", postId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.postId").value(1L))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("모든 게시물을 페이지 단위로 조회하는 기능")
+    void read_all_post_test() throws Exception {
+        // given
+        int page = 0;
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        ReadPostResponseDTO responseDTO = new ReadPostResponseDTO(1L, "테스트 닉네임", "테스트 카테고리","테스트 제목", "테스트 내용", LocalDateTime.now());
+        List<ReadPostResponseDTO> responseDTOList = new ArrayList<>();
+        responseDTOList.add(responseDTO);
+
+        Page<ReadPostResponseDTO> postResponseDTOPage = new PageImpl<>(responseDTOList, pageRequest, responseDTOList.size());
+
+        given(postService.readAllPost(any())).willReturn(postResponseDTOPage);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/posts"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].postId").value(responseDTO.getPostId()))
+                .andExpect(jsonPath("$.content[0].u_nickname").value(responseDTO.getU_nickname()))
+                .andExpect(jsonPath("$.content[0].category").value(responseDTO.getCategory()))
+                .andExpect(jsonPath("$.content[0].p_title").value(responseDTO.getP_title()))
+                .andExpect(jsonPath("$.content[0].p_content").value(responseDTO.getP_content()))
+                .andDo(print());
     }
 
 }
