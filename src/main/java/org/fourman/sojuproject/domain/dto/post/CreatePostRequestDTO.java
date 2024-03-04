@@ -12,10 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreatePostRequestDTO {
 
-    private String pTitle;
-
-    private String pContent;
+    private String u_nickname;
 
     private String category;
+
+    private String p_title;
+
+    private String p_content;
 
 }

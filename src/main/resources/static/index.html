@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+</head>
+<body>
+<h1>Create a New Post</h1>
+<form id="createPostForm" action="/api/v1/posts" method="post" enctype="application/json">
+    <label for="uNickname">Nickname:</label><br>
+    <input type="text" id="uNickname" name="uNickname"><br>
+
+    <label for="fId">FID:</label><br>
+    <input type="number" id="fId" name="fId"><br>
+
+    <label for="category">Category:</label><br>
+    <input type="text" id="category" name="category"><br>
+
+    <label for="cId">CID:</label><br>
+    <input type="number" id="cId" name="cId"><br>
+
+    <label for="pTitle">Title:</label><br>
+    <input type="text" id="pTitle" name="pTitle"><br>
+
+    <label for="pContent">Content:</label><br>
+    <textarea id="pContent" name="pContent"></textarea><br>
+
+    <label for="pViews">Views:</label><br>
+    <input type="number" id="pViews" name="pViews"><br>
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
