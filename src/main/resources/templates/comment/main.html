@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block layout:fragment="headerFragment">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    </th:block>
+</head>
+<body>
+<th:block layout:fragment="content">
+<div class="mainimg">
+    <img th:src="@{/img/maincenter1.png}">
+    <img th:src="@{/img/maincenter2.jpg}">
+    <img th:src="@{/img/maincenter3.jpg}">
+    <img th:src="@{/img/maincenter1.png}">
+    <img th:src="@{/img/maincenter2.jpg}">
+</div>
+<form class="searchbox" action="#" method="GET" role="search">
+    <input type="text" id="search" placeholder="검색어를 입력해주세요.">
+    <button>검색</button>
+</form>
+<div>
+    <div class="categorybtn">
+        <button>전체</button>
+        <button>양주</button>
+        <button>와인</button>
+        <button>샴페인</button>
+        <button>사케</button>
+        <button>전통주</button>
+        <button>폭탄</button>
+    </div>
+    <button type="button" class="postbutton" onclick="location.href='/createpost'">글쓰기</button>
+</div>
+<div class="boardcontainer">
+    <a style="margin:135px 50px; font-size:18px;">번호</a>
+    <a style="margin:135px 50px; font-size:18px;">제목</a>
+    <a style="margin:35px 500px; font-size:18px;">작성일&emsp;조회수&emsp;추천수</a>
+</div>
+</th:block>
+</body>
+</html>
