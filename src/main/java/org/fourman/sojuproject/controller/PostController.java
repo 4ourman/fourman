@@ -3,9 +3,24 @@ package org.fourman.sojuproject.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
+import org.fourman.sojuproject.domain.dto.post.*;
+import org.fourman.sojuproject.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/api/v1/posts")
+@RequiredArgsConstructor
 public class PostController {
+
+    private final PostService postService;
 
     @GetMapping("/main")
     public String mainpage(){
@@ -21,25 +36,6 @@ public class PostController {
     public String createpost(){
         return "/comment/createpost";
     }
-
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import org.fourman.sojuproject.domain.dto.post.*;
-import org.fourman.sojuproject.service.PostService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/api/v1/posts")
-@RequiredArgsConstructor
-public class PostController {
-
-    private final PostService postService;
 
     @PostMapping
     @Operation(summary = "게시글 작성", description = "여러 필드 입력")
