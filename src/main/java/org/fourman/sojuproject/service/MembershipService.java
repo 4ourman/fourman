@@ -8,8 +8,11 @@ import org.fourman.sojuproject.domain.dto.membership.CreateMembershipResponseDTO
 import org.fourman.sojuproject.domain.entity.Membership;
 import org.fourman.sojuproject.reposittory.LoginMembershipRepository;
 import org.fourman.sojuproject.reposittory.MembershipRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Slf4j
@@ -22,9 +25,13 @@ public class MembershipService {
 
     // 회원가입
     @Transactional
-    public CreateMembershipResponseDTO createMember(CreateMembershipRequestDTO request) {
+    public ResponseEntity<?> createMember(CreateMembershipRequestDTO request) {
+        Membership existingMember = membershipRepository.findBymEmail(request.getM_email());
+        if (existingMember != null) {
+            throw new DuplicateEmailException("이미 가입된 이메일입니다.");
+        }
 
-        log.info("😎 DTO로 받아 Service에서 사용되는 핸드폰번호 : {}", request.getM_phone());
+        // 회원 생성
         Membership member = Membership.builder()
                 .mName(request.getM_name())
                 .mEmail(request.getM_email())
@@ -36,7 +43,7 @@ public class MembershipService {
 
         Membership savedMember = membershipRepository.save(member);
 
-        return new CreateMembershipResponseDTO(savedMember.getMemberId(), savedMember.getMName(), savedMember.getMEmail(), savedMember.getMPassword(), savedMember.getMPhone(), savedMember.getMAddress(), savedMember.getMNickName());
+        return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
     }
 
     // 로그인
