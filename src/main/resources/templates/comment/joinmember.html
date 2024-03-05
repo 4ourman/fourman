@@ -103,7 +103,7 @@
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p>회원가입이 완료되었습니다.</p>
+        <p id="modalMessage"></p>
         <button id="confirmButton">확인</button>
     </div>
 </div>
@@ -133,8 +133,15 @@
                 // 회원가입 완료 후 모달 창 표시
                 var modal = document.getElementById('myModal');
                 modal.style.display = "block";
+                document.getElementById('modalMessage').textContent = "회원가입이 완료되었습니다.";
+            } else if (registerXHR.status === 400) {
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+                document.getElementById('modalMessage').textContent = "이미 사용 중인 이메일 주소입니다.";
             } else {
-                alert('회원가입에 실패하였습니다.');
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+                document.getElementById('modalMessage').textContent = "회원가입에 실패하였습니다.";
             }
         };
         registerXHR.send(JSON.stringify({

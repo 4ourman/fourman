@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.fourman.sojuproject.domain.dto.membership.CreateMembershipRequestDTO;
 import org.fourman.sojuproject.domain.dto.membership.CreateMembershipResponseDTO;
 import org.fourman.sojuproject.domain.dto.membership.LoginMembershipRequestDTO;
+import org.fourman.sojuproject.service.DuplicateEmailException;
 import org.fourman.sojuproject.service.MembershipService;
+import org.hibernate.NonUniqueResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,14 +24,21 @@ public class MembershipController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<CreateMembershipResponseDTO> memberCreate(@RequestBody CreateMembershipRequestDTO request){
+    public ResponseEntity<?> memberCreate(@RequestBody CreateMembershipRequestDTO request){
 
         log.info("😎 Controller 에서 사용되는 핸드폰번호 : {}", request.getM_phone());
 
-        CreateMembershipResponseDTO response = membershipService.createMember(request);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try {
+            ResponseEntity<?> response = membershipService.createMember(request);
+            return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
+        } catch (DuplicateEmailException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 사용 중인 이메일 주소입니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입에 실패했습니다.");
+        }
     }
+
+
 
     // 로그인
     @PostMapping("/login")
