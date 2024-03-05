@@ -1,71 +1,162 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    </head>
-    <div id="joinBox" class="container">
-        <div class="row">
-            <div class="col-lg-12 join-title">회원가입</div>
-            <form>
-                <div class="form-group" style="margin: 80px 40px;">
-                    <label class="form-control-label">이&nbsp&nbsp&nbsp&nbsp&nbsp름</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group" style="margin: 80px 40px;">
-                    <label class="form-control-label">생년월일</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group" style="margin-left:105px;">
-                    <label class="form-control-label">전화번호</label>
-                    <input type="text" class="form-control">
-                    <button>중복확인</button>
-                </div>
-                <div class="joinbtn">
-                    <button style="margin-top: 20px;">본인인증</button>
-                </div>
-                <div class="joinbtn">
-                    <button type="button" id="joinNext" style="margin-top: 30px;">다음</button>
-                </div>
-            </form>
-        </div>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <title>회원가입</title>
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .join-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin: 20px;
+        }
+        .joinbtn {
+            text-align: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #loginButton {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="joinBox" class="container">
+    <div class="row">
+        <div class="col-lg-12 join-title">회원가입</div>
+        <form id="registerFormStep1">
+            <div class="form-group">
+                <label class="form-control-label">이름</label>
+                <input type="text" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">전화번호</label>
+                <input type="text" id="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">주소</label>
+                <input type="text" id="address" class="form-control">
+            </div>
+            <div class="joinbtn">
+                <button id="nextStep">다음</button>
+            </div>
+        </form>
+        <form id="registerFormStep2" style="display: none;">
+            <div class="form-group">
+                <label class="form-control-label">이메일</label>
+                <input type="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">비밀번호</label>
+                <input type="password" id="password" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">닉네임</label>
+                <input type="text" id="nickname" class="form-control">
+            </div>
+            <div class="joinbtn">
+                <button id="registerButton">회원가입</button>
+            </div>
+            <div id="loginButton" class="joinbtn">
+                <a href="/api/v1/posts/main">이미 계정이 있으신가요? 로그인하기</a>
+            </div>
+        </form>
     </div>
-    <div id="joinBox2" class="container">
-        <div class="row">
-            <div class="col-lg-12 join-title">회원가입</div>
-            <form>
-                <div class="form-group" style="margin: 47.5px 145px;">
-                    <label class="form-control-label">닉&nbsp네&nbsp임</label>
-                    <input type="text" class="form-control">
-                    <button style="position:absolute">중복확인</button>
-                </div>
-                <div class="form-group" style="margin: 47.5px 145px;">
-                    <label class="form-control-label">아&nbsp이&nbsp디</label>
-                    <input type="text" class="form-control">
-                    <button style="position:absolute">중복확인</button>
-                </div>
-                <div class="form-group" style="margin: 47.5px 105px;">
-                    <label class="form-control-label">비밀번호</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group" style="margin: 0 40px;">
-                    <label class="form-control-label">주&nbsp&nbsp&nbsp&nbsp&nbsp소</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="joinbtn">
-                    <button style="margin-top: 20px;">회원가입</button>
-                </div>
-                <div class="joinbtn">
-                    <button style="margin-top: 30px;">다음</button>
-                </div>
-            </form>
-        </div>
+</div>
+
+<!-- 모달 창 -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>회원가입이 완료되었습니다.</p>
+        <button id="confirmButton">확인</button>
     </div>
-<script src="js/joinjs.js"></script>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    document.getElementById('nextStep').addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('registerFormStep1').style.display = 'none';
+        document.getElementById('registerFormStep2').style.display = 'block';
+    });
+
+    document.getElementById('registerFormStep2').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 회원가입 요청 전송
+        var name = document.getElementById('name').value;
+        var phone = document.getElementById('phone').value;
+        var address = document.getElementById('address').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var nickname = document.getElementById('nickname').value;
+        var registerXHR = new XMLHttpRequest();
+        registerXHR.open('POST', '/register', true);
+        registerXHR.setRequestHeader('Content-Type', 'application/json');
+        registerXHR.onload = function() {
+            if (registerXHR.status === 200) {
+                // 회원가입 완료 후 모달 창 표시
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+            } else {
+                alert('회원가입에 실패하였습니다.');
+            }
+        };
+        registerXHR.send(JSON.stringify({
+            m_name: name,
+            m_email: email,
+            m_password: password,
+            m_phone: phone,
+            m_address: address,
+            m_nick_name: nickname
+        }));
+    });
+
+    // 모달 닫기
+    document.getElementsByClassName("close")[0].addEventListener('click', function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+    });
+
+    // 확인 버튼 클릭 시 메인 페이지로 이동
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        window.location.href = "/api/v1/posts/main"; // 메인 페이지의 URL로 이동
+    });
+</script>
+</body>
 </html>
-<style>
-    body {
-        background: #222D32;
-        font-family: 'Roboto', sans-serif;
-    }
-</style>
