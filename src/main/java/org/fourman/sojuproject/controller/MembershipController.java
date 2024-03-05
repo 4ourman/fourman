@@ -1,5 +1,7 @@
 package org.fourman.sojuproject.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,16 +44,19 @@ public class MembershipController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginMembershipRequestDTO requestDTO, HttpSession session) {
+    public ResponseEntity<String> login(HttpServletResponse response, @RequestBody LoginMembershipRequestDTO requestDTO) {
         boolean loginSuccess = membershipService.login(requestDTO.getM_email(), requestDTO.getM_password());
-
         if (loginSuccess) {
-            session.setAttribute("isLoggedIn", true);
-            return ResponseEntity.ok().body("로그인에 성공하였습니다.");
+            // 로그인 성공 시 쿠키 설정
+            Cookie cookie = new Cookie("userNickname", requestDTO.getM_email());
+            cookie.setMaxAge(3600); // 쿠키의 유효 시간을 설정합니다. 여기서는 1시간으로 설정합니다.
+            response.addCookie(cookie);
+            return ResponseEntity.ok("로그인 성공!");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패하였습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");
         }
     }
+
 
     // 로그아웃
     @PostMapping("/logout")
