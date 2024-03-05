@@ -30,8 +30,6 @@ public class MembershipController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    // id 중복체크
-
 
     // 로그인
     @PostMapping("/login")
@@ -46,6 +44,7 @@ public class MembershipController {
         }
     }
 
+    // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         // 세션에서 로그인 정보를 제거
@@ -53,6 +52,7 @@ public class MembershipController {
         return ResponseEntity.ok().body("로그아웃되었습니다.");
     }
 
+    // 회원탈퇴
     @PostMapping("/withdraw")
     public ResponseEntity<String> withdraw(HttpSession session) {
         if (membershipService.withdraw(session)) {
@@ -61,6 +61,5 @@ public class MembershipController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴에 실패하였습니다.");
         }
     }
-
 
 }
