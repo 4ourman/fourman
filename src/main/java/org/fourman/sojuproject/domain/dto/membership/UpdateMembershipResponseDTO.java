@@ -17,7 +17,7 @@ public class UpdateMembershipResponseDTO {
 
     private String mPassword;
 
-    private Long mPhone;
+    private String mPhone;
 
     private String mAddress;
 

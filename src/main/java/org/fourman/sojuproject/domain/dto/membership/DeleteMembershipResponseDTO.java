@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteMembershipResponseDTO {
 
-    private Long memberId;
+    private Long member_id;
 
 }
