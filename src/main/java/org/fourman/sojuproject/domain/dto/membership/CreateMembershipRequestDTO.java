@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateMembershipRequestDTO {
 
-    private String mName;
+    private String m_name;
 
-    private String mId;
+    private String m_email;
 
-    private String mPassword;
+    private String m_password;
 
-    private Long mPhone;
+    private String m_phone;
 
-    private String mAddress;
+    private String m_address;
 
-    private String mNickName;
+    private String m_nick_name;
 
 }

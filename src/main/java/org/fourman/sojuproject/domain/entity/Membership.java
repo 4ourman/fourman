@@ -3,14 +3,12 @@ package org.fourman.sojuproject.domain.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Membership {
@@ -21,14 +19,16 @@ public class Membership {
 
     private String mName;
 
-    private String mId;
+    private String mEmail;
 
     private String mPassword;
 
-    private Long mPhone;
+    private String mPhone;
 
     private String mAddress;
 
     private String mNickName;
+
+    private boolean isLoggedIn;
 
 }
