@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCommentRequestDTO {
 
-    private String cContent;
-
+    private String u_nick_name;
+    private String c_content;
 }
