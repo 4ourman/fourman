@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -21,11 +22,21 @@ public class Comment {
     @GeneratedValue
     private Long commentId;
 
-    private String uNickName;
+    //@Column(nullable = false)
+    private String u_nick_name;
 
-    private String cContent;
+    //@Column(nullable = false)
+    //@Lob
+    private String c_content;
 
     private LocalDateTime cRegDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime cModDate;
+
+    public void setCContent(String c_content) {
+        this.c_content = c_content;
+    }
+
+
 }
