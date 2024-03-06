@@ -1,21 +1,23 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <th:block th:fragment="headerFragment">
-<head>
-  <title >세계 주류 게시판</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link th:href="@{/css/styles.css}" rel="stylesheet" />
+  <head>
+    <title >세계 주류 게시판</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <div class="title">
       <img class="title-img" th:src="@{/img/header.jpg}">
+      <img class="title-img2" th:src="@{/img/header2.svg}" onclick="location.href='/api/v1/posts/main'">
+      <img class="title-img3" th:src="@{/img/header2.svg}" onclick="location.href='/api/v1/posts/main'">
       <h1 class="title-text">세계 주류 게시판</h1>
     </div>
-</head>
+  </head>
   <div id="beforeLogin" class="logincontainer">
     <div class="loginbefor">
       <h1 style="text-align: center; margin-top:5%; font-size:20px;">로그인</h1>
       <hr/>
-        <input id="login1" type="loginid" placeholder="ID">
-        <input id="login2" type="password" placeholder="PASSWORD">
+      <input id="login1" type="loginid" placeholder="ID">
+      <input id="login2" type="password" placeholder="PASSWORD">
       <a style="font-size:12px; margin-left:60px; cursor: pointer;" href="/api/v1/posts/joinmember">회원가입</a>
       <a style="font-size:12px; margin-left:80px; cursor: pointer;">비밀번호 찾기</a>
       <button id="loginButton" class="signup">로그인</button>

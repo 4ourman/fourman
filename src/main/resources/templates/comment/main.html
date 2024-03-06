@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:form="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,26 +17,59 @@
         <img th:src="@{/img/maincenter1.png}">
         <img th:src="@{/img/maincenter2.jpg}">
     </div>
-    <form class="searchbox" action="#" method="GET" role="search">
-        <input type="search" id="search" placeholder="검색어를 입력해주세요.">
-        <button>검색</button>
-    </form>
-    <div>
-        <div class="categorybtn">
-            <button>전체</button>
-            <button>양주</button>
-            <button>와인</button>
-            <button>샴페인</button>
-            <button>사케</button>
-            <button>전통주</button>
-            <button>폭탄</button>
+    <article>
+        <div>
+            <form class="searchbox" action="#" method="GET" role="search">
+                <input type="search" id="search" placeholder="검색어를 입력해주세요.">
+                <button>검색</button>
+            </form>
+            <div>
+                <div class="categorybtn">
+                    <button onclick="loadCategory('전체')"><a th:href="@{/api/v1/posts/main(postId=전체)}"></a>전체</button>
+                    <button onclick="loadCategory('양주')"><a th:href="@{/api/v1/posts/main(postId=양주)}"></a>양주</button>
+                    <button onclick="loadCategory('와인')"><a th:href="@{/api/v1/posts/main(postId=와인)}"></a>와인</button>
+                    <button onclick="loadCategory('샴페인')"><a th:href="@{/api/v1/posts/main(postId=샴페인)}"></a>샴페인</button>
+                    <button onclick="loadCategory('사케')"><a th:href="@{/api/v1/posts/main(postId=사케)}"></a>사케</button>
+                    <button onclick="loadCategory('전통주')"><a th:href="@{/api/v1/posts/main(postId=전통주)}"></a>전통주</button>
+                    <button onclick="loadCategory('폭탄')"><a th:href="@{/api/v1/posts/main(postId=폭탄)}"></a>폭탄</button>
+                    <button onclick="loadCategory('만남')"><a th:href="@{/api/v1/posts/main(postId=만남)}"></a>만남</button>
+                </div>
+            </div>
+            <!-- 카테고리버튼 누르면 로컬호스트주소 끝에 해당 카테고리 이름 붙음 -->
+            <script type="text/javascript">
+                function loadCategory(category) {
+
+                    var currentURL = window.location.href;
+
+                    var newURL = currentURL.split('?')[0] + '?' + encodeURIComponent(category);
+
+                    window.location.href = newURL;
+                }
+            </script>
+            <table class="boardcontainer">
+                <thead>
+                <tr>
+                    <td>번호</td>
+                    <td>제목</td>
+                    <td>작성일</td>
+                    <td>조회수</td>
+                    <td>추천수</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, rowStat : ${readposts.content}">
+                    <td th:text="${rowStat.index + readposts.number * readposts.size + 1}"></td>
+                    <td>
+                        <a th:href="@{/api/v1/posts/post(postId=${item.postId})}" th:text="${item.u_nickname}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(item.p_date, 'MM/dd HH:mm')}"></td>
+                    <td>35</td><!--조회수 -->
+                    <td>35</td><!--추천수 -->
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="boardcontainer">
-        <a style="margin:135px 50px; font-size:18px;">번호</a>
-        <a style="margin:135px 50px; font-size:18px;">제목</a>
-        <a style="margin:35px 500px; font-size:18px;">작성일&emsp;조회수&emsp;추천수</a>
-    </div>
+    </article>
 </th:block>
 </body>
 </html>

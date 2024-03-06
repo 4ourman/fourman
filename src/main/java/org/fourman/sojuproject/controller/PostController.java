@@ -2,6 +2,7 @@ package org.fourman.sojuproject.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
@@ -23,7 +26,9 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/main")
-    public String mainpage(){
+    public String mainpage(Model model, Pageable pageable){
+        Page<ReadPostResponseDTO> readposts = postService.readAllPost(pageable);
+        model.addAttribute("readposts", readposts);
         return "/comment/main";
     }
 

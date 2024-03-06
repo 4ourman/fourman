@@ -7,8 +7,26 @@
 }
 
 .title-img{
+    position: relative;
     width:100%;
     height:100%;
+    z-index:1;
+}
+
+.title-img2{
+    position: absolute;
+    width:300px;
+    height:220px;
+    left:12%;
+    z-index:2;
+}
+
+.title-img3{
+    position: absolute;
+    width:300px;
+    height:220px;
+    left:73%;
+    z-index:2;
 }
 
 .title-text{
@@ -18,6 +36,7 @@
     color: #74af67;
     transform: translate( -50%, -50% );
     font-size: 110px;
+    z-index:2;
 }
 
 .logincontainer {
@@ -126,8 +145,12 @@
 .boardcontainer{
     margin: 15px 80px;
     width: 1300px;
-    height: 1000px;
+    height: 600px;
     border-style:solid;
+}
+
+.boardcontainer td{
+    vertical-align: top;
 }
 
 /* joinmember */
@@ -298,35 +321,38 @@
 
 #dropmodal {
     display: none;
-    position:relative;
-    width:100%;
-    height:100%;
-    z-index:1;
-}
-
-#dropmodal h2 {
-    margin:0;
-}
-#dropmodal button {
-    display:inline-block;
-    width:100px;
-    margin-left:calc(100% - 100px - 10px);
-}
-
-#dropmodal .dropmodal_content {
-    width:300px;
-    margin:100px auto;
-    padding:20px 10px;
-    background:#fff;
-    border:2px solid #666;
-}
-
-#dropmodal .dropmodal_layer {
     position:fixed;
     top:0;
     left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index:1;
+}
+
+#dropmodal .dropmodal_content {
     width:100%;
-    height:100%;
-    background:rgba(0, 0, 0, 0.5);
-    z-index:-1;
+    max-width:400px;
+    padding: 15px;
+    background:#fff;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(170%, 100%);
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+}
+
+.modal-title{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: red;
+    font-size:23px;
+}
+
+#dropmodal_close_btn{
+    display:flex;
+    float:right;
+    justify-content: flex-end;
 }

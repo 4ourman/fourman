@@ -10,65 +10,89 @@
 </head>
 <th:block layout:fragment="content">
     <body>
-        <div class="memberinfo" style="margin:40px 80px;">
-            <h1>회원정보수정</h1>
-            <table class="memberinfocon">
-                <tr>
-                    <th class="th1">이름</th>
-                    <td class="td1">최준영</td>
-<!--                    <td><?=$res['name']?></td>-->
-                </tr>
-                <tr>
-                    <th class="th1">닉네임</th>
-                    <td class="td1">쭌농</td>
-<!--                    <td><?=$res['login_id']?></td>-->
-                </tr>
-                <tr>
-                    <th class="th1">아이디</th>
-                    <td class="td1">cacao3216</td>
-<!--                    <td><?=$res['login_id']?></td>-->
-                </tr>
-                <tr>
-                    <th class="th1">연락처</th>
-                    <td class="td1">010 4169 3216</td>
-<!--                    <td><?=$res['phone']?></td>-->
-                </tr>
-                <tr>
-                    <th class="th1">비밀번호 변경</th>
-                    <td class="td1">
-                        <form action="<%=contextPath%>/updatePwd.me" method="post">
-                            <table>
-                                <tr>
-                                    <td>현재 비밀번호</td>
-                                    <td><input type="password" name="userPwd" required></td>
-                                </tr>
-                                <tr>
-                                    <td>새 비밀번호</td>
-                                    <td><input type="password" name="updatePwd" id="pwd1" required></td>
-                                </tr>
-                                <tr>
-                                    <td>새 비밀번호 확인</td>
-                                    <td><input type="password" name="checkPwd" id="pwd2" required></td>
-                                    <td style="font-size:11px; font-weight:100; color:#737373">비밀번호를 변경하면 로그아웃 됩니다.</td>
-                                </tr>
-                            </table>
-                            <br>
-                            <button type="submit" class="pwchangebtn">비밀번호 변경</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-            <button id="dropmodal_opne_btn" class="dropmodal">회원 탈퇴</button>
-            <div id="dropmodal">
-                <div class="dropmodal_content">
-                    <h2>모달 창</h2>
-                    <p>모달 창 입니다.</p>
-                    <button type="button" id="dropmodal_close_btn">모달 창 닫기</button>
+    <div class="memberinfo" style="margin:40px 80px;">
+        <h1>회원정보수정</h1>
+        <table class="memberinfocon">
+            <tr>
+                <th class="th1">이름</th>
+                <td class="td1">최준영</td>
+                <!--                    <td><?=$res['name']?></td>-->
+            </tr>
+            <tr>
+                <th class="th1">닉네임</th>
+                <td class="td1">쭌농</td>
+                <!--                    <td><?=$res['login_id']?></td>-->
+            </tr>
+            <tr>
+                <th class="th1">아이디</th>
+                <td class="td1">cacao3216</td>
+                <!--                    <td><?=$res['login_id']?></td>-->
+            </tr>
+            <tr>
+                <th class="th1">연락처</th>
+                <td class="td1">010 4169 3216</td>
+                <!--                    <td><?=$res['phone']?></td>-->
+            </tr>
+            <tr>
+                <th class="th1">비밀번호 변경</th>
+                <td class="td1">
+                    <form action="<%=contextPath%>/updatePwd.me" method="post">
+                        <table>
+                            <tr>
+                                <td>현재 비밀번호</td>
+                                <td><input type="password" name="userPwd" required></td>
+                            </tr>
+                            <tr>
+                                <td>새 비밀번호</td>
+                                <td><input type="password" name="updatePwd" id="pwd1" required></td>
+                            </tr>
+                            <tr>
+                                <td>새 비밀번호 확인</td>
+                                <td><input type="password" name="checkPwd" id="pwd2" required></td>
+                                <td style="font-size:11px; font-weight:100; color:#737373">비밀번호를 변경하면 로그아웃 됩니다.</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <button type="submit" class="pwchangebtn">비밀번호 변경</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <button id="dropmodal_opne_btn" class="dropmodal">회원 탈퇴</button>
+    </div>
+    </body>
+    <div id="dropmodal">
+        <div class="modal-dialog">
+            <div class="dropmodal_content">
+                <div class="modal-header">
+                    <button type="button" id="dropmodal_close_btn">&times;</button>
+                    <h4 class="modal-title">회원 탈퇴</h4>
                 </div>
-                <div class="dropmodal_layer"></div>
+                <div class="modal-body">
+                    <b>회원 탈퇴 후 복구는 불가능합니다. <br> 정말로 탈퇴하시겠습니까? </b> <br><br>
+                    <form action="/" method="post">
+                        <input type="hidden" name="userId" value="<%=userId%>">
+                        <table>
+                            <tr>
+                                <td>비밀번호 입력</td>
+                                <td><input type="password" name="userPwd" required></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <button type="submit"  onclick="return deleteMember();">탈퇴</button>
+                    </form>
+                    <script>
+                        function deleteMember(){
+                            if($("input[name=userPwd]").val() != "<%=userPwd%>"){
+                                alert("비밀번호가 틀렸습니다.");
+                                return false;
+                            }
+                        }
+                    </script>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
     <script src="/js/script.js"></script>
 </th:block>
 </html>
