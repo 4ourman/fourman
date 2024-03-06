@@ -46,10 +46,14 @@
       var title = document.getElementById("title").value;
       var contents = document.getElementById("contents").value;
 
+      // 현재 로그인된 사용자의 이메일을 가져옴
+      var u_nickname = getCookie("username");
+
       var data = {
         category: category,
         p_title: title,
-        p_content: contents
+        p_content: contents,
+        u_nickname: u_nickname  // 사용자의 이메일을 u_nickname으로 전송
       };
 
       fetch('/api/v1/posts', {
@@ -72,5 +76,6 @@
               });
     }
   </script>
+
 </th:block>
 </html>
