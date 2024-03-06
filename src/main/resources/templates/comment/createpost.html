@@ -13,17 +13,17 @@
   <div class="postcreate" style="margin:40px 100px;">
     <h1>게시판 등록</h1>
     <input class="createbtn1" type="submit" value="취소" onclick="history.back()">
-    <input class="createbtn2" type="submit" id="submit" value="저장">
+    <input class="createbtn2" type="submit" id="submit" value="저장" onclick="savePost()">
     <hr>
-    <form id="frm" name="frm" method="post" action="/">
-      <select class="selectcategory">
+    <form id="postForm" name="postForm" method="post" action="/api/v1/posts">
+      <select class="selectcategory" id="category" name="category">
         <option value="">게시글 카테고리</option>
-        <option value="apple">양주</option>
-        <option value="banana">와인</option>
-        <option value="orange">샴페인</option>
-        <option value="orange">사케</option>
-        <option value="orange">전통주</option>
-        <option value="orange">폭탄</option>
+        <option value="양주">양주</option>
+        <option value="와인">와인</option>
+        <option value="샴페인">샴페인</option>
+        <option value="사케">사케</option>
+        <option value="전통주">전통주</option>
+        <option value="폭탄">폭탄</option>
       </select>
       <table class="board_detail">
         <tr>
@@ -40,5 +40,37 @@
   </div>
   </body>
   <script src="/js/script.js"></script>
+  <script th:inline="javascript">
+    function savePost() {
+      var category = document.getElementById("category").value;
+      var title = document.getElementById("title").value;
+      var contents = document.getElementById("contents").value;
+
+      var data = {
+        category: category,
+        p_title: title,
+        p_content: contents
+      };
+
+      fetch('/api/v1/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+              .then(response => {
+                if (response.ok) {
+                  // 게시글이 성공적으로 저장되면 메인 페이지로 이동합니다.
+                  window.location.href = "/api/v1/posts/main"; // 메인 페이지 URL에 맞게 수정하세요.
+                } else {
+                  console.error('게시글 저장에 실패했습니다.');
+                }
+              })
+              .catch(error => {
+                console.error('네트워크 에러:', error);
+              });
+    }
+  </script>
 </th:block>
 </html>
