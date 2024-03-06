@@ -142,6 +142,7 @@
     box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
 }
 
+/* main */
 .boardcontainer{
     margin: 15px 80px;
     width: 1300px;
@@ -151,6 +152,11 @@
 
 .boardcontainer td{
     vertical-align: top;
+}
+
+.boardcontainerhead td {
+    font-weight: 700;
+    font-size: 20px;
 }
 
 /* joinmember */

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:form="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -47,13 +47,14 @@
                 }
             </script>
             <table class="boardcontainer">
-                <thead>
+                <thead class="boardcontainerhead">
                 <tr>
-                    <td>번호</td>
-                    <td>제목</td>
-                    <td>작성일</td>
-                    <td>조회수</td>
-                    <td>추천수</td>
+                    <td width="100px"></td>
+                    <td width="700px">제목</td>
+                    <td width="250px">작성자</td>
+                    <td width="150px">작성일</td>
+                    <td width="150px">조회수</td>
+                    <td width="150px">추천수</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,7 +63,8 @@
                     <td>
                         <a th:href="@{/api/v1/posts/post(postId=${item.postId})}" th:text="${item.u_nickname}"></a>
                     </td>
-                    <td th:text="${#temporals.format(item.p_date, 'MM/dd HH:mm')}"></td>
+                    <td th:text="${item.p_title}"></td>
+                    <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
                     <td>35</td><!--조회수 -->
                     <td>35</td><!--추천수 -->
                 </tr>
