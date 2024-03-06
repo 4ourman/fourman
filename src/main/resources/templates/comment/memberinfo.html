@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block layout:fragment="headerFragment">
+        <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    </th:block>
+</head>
+<th:block layout:fragment="content">
+    <body>
+        <div class="memberinfo" style="margin:40px 80px;">
+            <h1>회원정보수정</h1>
+            <table class="memberinfocon">
+                <tr>
+                    <th class="th1">이름</th>
+                    <td class="td1">최준영</td>
+<!--                    <td><?=$res['name']?></td>-->
+                </tr>
+                <tr>
+                    <th class="th1">닉네임</th>
+                    <td class="td1">쭌농</td>
+<!--                    <td><?=$res['login_id']?></td>-->
+                </tr>
+                <tr>
+                    <th class="th1">아이디</th>
+                    <td class="td1">cacao3216</td>
+<!--                    <td><?=$res['login_id']?></td>-->
+                </tr>
+                <tr>
+                    <th class="th1">연락처</th>
+                    <td class="td1">010 4169 3216</td>
+<!--                    <td><?=$res['phone']?></td>-->
+                </tr>
+                <tr>
+                    <th class="th1">비밀번호 변경</th>
+                    <td class="td1">
+                        <form action="<%=contextPath%>/updatePwd.me" method="post">
+                            <table>
+                                <tr>
+                                    <td>현재 비밀번호</td>
+                                    <td><input type="password" name="userPwd" required></td>
+                                </tr>
+                                <tr>
+                                    <td>새 비밀번호</td>
+                                    <td><input type="password" name="updatePwd" id="pwd1" required></td>
+                                </tr>
+                                <tr>
+                                    <td>새 비밀번호 확인</td>
+                                    <td><input type="password" name="checkPwd" id="pwd2" required></td>
+                                    <td style="font-size:11px; font-weight:100; color:#737373">비밀번호를 변경하면 로그아웃 됩니다.</td>
+                                </tr>
+                            </table>
+                            <br>
+                            <button type="submit" class="pwchangebtn">비밀번호 변경</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <button id="dropmodal_opne_btn" class="dropmodal">회원 탈퇴</button>
+            <div id="dropmodal">
+                <div class="dropmodal_content">
+                    <h2>모달 창</h2>
+                    <p>모달 창 입니다.</p>
+                    <button type="button" id="dropmodal_close_btn">모달 창 닫기</button>
+                </div>
+                <div class="dropmodal_layer"></div>
+            </div>
+        </div>
+    </body>
+    <script src="/js/script.js"></script>
+</th:block>
+</html>

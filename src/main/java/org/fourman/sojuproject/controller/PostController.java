@@ -37,6 +37,16 @@ public class PostController {
         return "/comment/createpost";
     }
 
+    @GetMapping("/post")
+    public String post(){
+        return "/comment/post";
+    }
+
+    @GetMapping("/memberinfo")
+    public String memberinfo(){
+        return "/comment/memberinfo";
+    }
+
     @PostMapping
     @Operation(summary = "게시글 작성", description = "여러 필드 입력")
     public ResponseEntity<CreatePostResponseDTO> postCreate(@RequestBody CreatePostRequestDTO requestDTO){
