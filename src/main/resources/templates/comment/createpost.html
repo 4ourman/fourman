@@ -1,18 +1,44 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
 <head>
-  <title >세계 주류 게시판</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link th:href="@{/css/styles.css}" rel="stylesheet" />
-  <div class="title">
-    <img class="title-img" th:src="@{/img/header.jpg}">
-    <h1 class="title-text">세계 주류 게시판</h1>
-  </div>
+  <th:block layout:fragment="headerFragment">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+  </th:block>
 </head>
-<div>
-  <h1 style="margin: 100px 100px;">게시글 작성</h1>
-  <button type="button">취소</button>
-  <button type="button">등록</button>
-</div>
-<script src="js/script.js"></script>
+<th:block layout:fragment="content">
+  <body>
+  <div class="postcreate" style="margin:40px 100px;">
+    <h1>게시판 등록</h1>
+    <input class="createbtn1" type="submit" value="취소" onclick="history.back()">
+    <input class="createbtn2" type="submit" id="submit" value="저장">
+    <hr>
+    <form id="frm" name="frm" method="post" action="/">
+      <select class="selectcategory">
+        <option value="">게시글 카테고리</option>
+        <option value="apple">양주</option>
+        <option value="banana">와인</option>
+        <option value="orange">샴페인</option>
+        <option value="orange">사케</option>
+        <option value="orange">전통주</option>
+        <option value="orange">폭탄</option>
+      </select>
+      <table class="board_detail">
+        <tr>
+          <td><input type="text" id="title" name="title" class="createtitle" placeholder="제목"></td>
+          <td><input type="file" class="createimg" placeholder="사진등록"></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <textarea id="contents" name="contents" class="createcontent" placeholder="내용"></textarea>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  </body>
+  <script src="/js/script.js"></script>
+</th:block>
 </html>

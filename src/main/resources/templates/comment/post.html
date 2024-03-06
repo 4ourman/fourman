@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block layout:fragment="headerFragment">
+        <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    </th:block>
+</head>
+<th:block layout:fragment="content">
+    <body>
+    <div class="postcontent" style="margin:40px 80px;">
+        <table style="border-bottom:1px solid; width: 1340px;">
+            <tbody>
+            <h5 style="color:#35a845;">양주 게시판</h5>
+            <tr>
+                <td style="font-weight:800; font-size:45px;" colspan="3">제목
+<!--          제목      <input type="text" id="title" name="title" th:value="${board.title }"/>-->
+                </td>
+            </tr>
+            <tr style="text-align: left;">
+                <th scope="row">작성자</th>
+<!--    작성일     <td th:text="${board.creatorId}"></td>-->
+<!--    작성시간   <td th:text="${#temporals.format(board.createdDatetime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+                <th style="font-weight:100;" scope="row">조회</th>
+<!--                <td th:text="${board.hitCnt}"></td>-->
+            </tr>
+            </tbody>
+        </table>
+        <table class="postcontent2">
+            <tbody>
+                <tr>
+                    <td colspan="4" class="view_text">내용내용내용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용
+<!--			    <textarea title="내용" id="contents" name="contents" th:text="${board.contents }"></textarea>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <div class="comments mt-3">
+            </div>
+            <form class="postcomment" onsubmit="addComment(event)">
+                <div class="form-group">
+                    <input type="text" class="form-control2" placeholder="댓글을 입력하세요" required>
+                </div>
+                <button type="submit" class="btn btn-primary">작성</button>
+            </form>
+        </div>
+    </div>
+    </body>
+    <script src="/js/script.js"></script>
+</th:block>
+</html>
