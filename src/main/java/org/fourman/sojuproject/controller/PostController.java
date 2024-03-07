@@ -1,6 +1,7 @@
 package org.fourman.sojuproject.controller;
 
 
+import lombok.extern.log4j.Log4j2;
 import org.fourman.sojuproject.domain.entity.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
+@Log4j2
 public class PostController {
 
     private final PostService postService;
+
+//    @GetMapping("/main")
+//    public String main() {
+//        return "/comment/main";
+//    }
 
     @GetMapping("/main")
     public String main(Model model, @PageableDefault(page = 0, size = 10, sort = "postId",
@@ -33,8 +40,12 @@ public class PostController {
         Page<Post> readposts;
 
         if(searchKeyword == null) { //검색할 키워드가 들어오지 않은 경우 전체 리스트 출력
-            readposts = postService.readPost(pageable);
-        } else { //검색할 키워드가 들어온 경우 검색 기능이 포함된 리스트 반환
+            // 제목과 작성자가 바뀌어서 출력되는 상태
+            readposts = postService.readSearch(pageable);
+        } else {
+            //검색할 키워드가 들어온 경우 검색 기능이 포함된 리스트 반환
+            // 제목과 작성자가 정상적으로 출력되는 상태
+            log.info("✌ searchKeyword : {}", searchKeyword);
             readposts = postService.searchPost(searchKeyword, pageable);
         }
 
