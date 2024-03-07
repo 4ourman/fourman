@@ -1,6 +1,7 @@
 package org.fourman.sojuproject.controller;
 
 
+import org.fourman.sojuproject.domain.entity.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +27,28 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/main")
-    public String mainpage(Model model, Pageable pageable){
-        Page<ReadPostResponseDTO> readposts = postService.readAllPost(pageable);
+    public String main(Model model, @PageableDefault(page = 0, size = 10, sort = "postId",
+            direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) { //검색 키워드를 searchKeyword로 전달 받음
+
+        Page<Post> readposts;
+
+        if(searchKeyword == null) { //검색할 키워드가 들어오지 않은 경우 전체 리스트 출력
+            readposts = postService.readPost(pageable);
+        } else { //검색할 키워드가 들어온 경우 검색 기능이 포함된 리스트 반환
+            readposts = postService.searchPost(searchKeyword, pageable);
+        }
+
+        int nowPage = readposts.getPageable().getPageNumber() + 1; //pageable이 가지고 있는 페이지는 0부터 시작이라 1을 더함
+
+        int startPage = Math.max(nowPage -4, 1); //1보다 작은 경우는 1을 반환
+
+        int endPage = Math.min(nowPage + 5, readposts.getTotalPages()); //전체 페이지보다 많은 경우는 전체 페이지를 반환
+
         model.addAttribute("readposts", readposts);
-        return "/comment/main";
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage",endPage);
+        return "comment/main";
     }
 
     @GetMapping("/joinmember")

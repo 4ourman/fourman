@@ -1,5 +1,6 @@
 package org.fourman.sojuproject.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,18 +23,20 @@ public class Post {
     @GeneratedValue
     private Long postId;
 
-    private String u_nickname;
+    @Column(name = "u_nickname")  // 속성명에 대한 매핑 추가
+    private String unickname;
 
     private String category;
 
-    private String p_title;
+    @Column(name = "p_title")  // 속성명에 대한 매핑 추가
+    private String ptitle;
 
     private String p_content;
 
     private LocalDateTime p_date;
 
-    public void update(String p_title, String p_content, String category) {
-        this.p_title = p_title;
+    public void update(String ptitle, String p_content, String category) {
+        this.ptitle = ptitle;
         this.p_content = p_content;
         this.category = category;
     }
