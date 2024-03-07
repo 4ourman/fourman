@@ -42,11 +42,6 @@ public class PostController {
         return "/comment/createpost";
     }
 
-    @GetMapping("/post")
-    public String post(){
-        return "/comment/post";
-    }
-
     @GetMapping("/memberinfo")
     public String memberinfo(){
         return "/comment/memberinfo";
@@ -62,14 +57,12 @@ public class PostController {
 
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/post/{postId}")
     @Operation(summary = "게시글 단일 조회", description = "postId로 게시글 단일 조회")
-    public ResponseEntity<ReadPostResponseDTO> postRead(@PathVariable Long postId) {
-
+    public String postRead(@PathVariable Long postId, Model model) {
         ReadPostResponseDTO responseDTO = postService.readPostById(postId);
-
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-
+        model.addAttribute("post", responseDTO);
+        return "/comment/post";
     }
 
     @PutMapping("/{postId}")
