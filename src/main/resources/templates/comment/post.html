@@ -1,7 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/basic.html}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic.html}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <th:block layout:fragment="headerFragment">
@@ -15,26 +13,22 @@
             <tbody>
             <h5 style="color:#35a845;">양주 게시판</h5>
             <tr>
-                <td style="font-weight:800; font-size:45px;" colspan="3">제목
-<!--          제목      <input type="text" id="title" name="title" th:value="${board.title }"/>-->
-                </td>
+                <td style="font-weight:800; font-size:45px;" colspan="3" th:text="${post.p_title}">제목</td>
             </tr>
             <tr style="text-align: left;">
                 <th scope="row">작성자</th>
-<!--    작성일     <td th:text="${board.creatorId}"></td>-->
-<!--    작성시간   <td th:text="${#temporals.format(board.createdDatetime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+                <td th:text="${post.u_nickname}"></td>
                 <th style="font-weight:100;" scope="row">조회</th>
-<!--                <td th:text="${board.hitCnt}"></td>-->
+                <td>조회수</td><!-- 조회수는 여기에 표시 -->
             </tr>
             </tbody>
         </table>
         <table class="postcontent2">
             <tbody>
-                <tr>
-                    <td colspan="4" class="view_text">내용내용내용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용승용
-<!--			    <textarea title="내용" id="contents" name="contents" th:text="${board.contents }"></textarea>-->
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="4" class="view_text" th:text="${post.p_content}">
+                </td>
+            </tr>
             </tbody>
         </table>
         <div>

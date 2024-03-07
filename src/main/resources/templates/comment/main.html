@@ -61,7 +61,7 @@
                 <tr th:each="item, rowStat : ${readposts.content}">
                     <td th:text="${rowStat.index + readposts.number * readposts.size + 1}"></td>
                     <td>
-                        <a th:href="@{/api/v1/posts/post(postId=${item.postId})}" th:text="${item.u_nickname}"></a>
+                        <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.u_nickname}"></a>
                     </td>
                     <td th:text="${item.p_title}"></td>
                     <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
