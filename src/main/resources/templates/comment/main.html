@@ -19,9 +19,9 @@
     </div>
     <article>
         <div>
-            <form class="searchbox" action="#" method="GET" role="search">
-                <input type="search" id="search" placeholder="검색어를 입력해주세요.">
-                <button>검색</button>
+            <form th:action="@{/api/v1/posts/main}" class="searchbox" method="GET">
+                <input type="text" class="postsearch" name="searchKeyword" placeholder="검색어를 입력해주세요.">
+                <button type="submit">검색</button>
             </form>
             <div>
                 <div class="categorybtn">
@@ -61,15 +61,19 @@
                 <tr th:each="item, rowStat : ${readposts.content}">
                     <td th:text="${rowStat.index + readposts.number * readposts.size + 1}"></td>
                     <td>
-                        <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.u_nickname}"></a>
+                        <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.unickname}"></a>
                     </td>
-                    <td th:text="${item.p_title}"></td>
+                    <td th:text="${item.ptitle}"></td>
                     <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
                     <td>35</td><!--조회수 -->
                     <td>35</td><!--추천수 -->
                 </tr>
                 </tbody>
             </table>
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/api/v1/posts/main(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+            </th:block>
         </div>
     </article>
 </th:block>

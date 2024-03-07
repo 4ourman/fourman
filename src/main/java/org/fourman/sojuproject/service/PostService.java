@@ -30,17 +30,17 @@ public class PostService {
     public CreatePostResponseDTO createPost(CreatePostRequestDTO requestDTO) {
 
         Post post = Post.builder()
-                .u_nickname(requestDTO.getU_nickname())
+                .unickname(requestDTO.getU_nickname())
                 .category(requestDTO.getCategory())
-                .p_title(requestDTO.getP_title())
+                .ptitle(requestDTO.getP_title())
                 .p_content(requestDTO.getP_content())
                 .p_date(LocalDateTime.now())
                 .build();
 
         Post savedPost = postRepository.save(post);
 
-        return new CreatePostResponseDTO(savedPost.getPostId(), savedPost.getU_nickname(),
-                 savedPost.getCategory(),  savedPost.getP_title(), savedPost.getP_content(), savedPost.getP_date());
+        return new CreatePostResponseDTO(savedPost.getPostId(), savedPost.getUnickname(),
+                savedPost.getCategory(),  savedPost.getPtitle(), savedPost.getP_content(), savedPost.getP_date());
 
     }
 
@@ -50,7 +50,7 @@ public class PostService {
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 postId로 조회된 게시글이 없습니다."));
 
-        return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getU_nickname(), foundPost.getCategory(), foundPost.getP_title(), foundPost.getP_content(), foundPost.getP_date());
+        return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getUnickname(), foundPost.getCategory(), foundPost.getPtitle(), foundPost.getP_content(), foundPost.getP_date());
 
     }
 
@@ -63,7 +63,7 @@ public class PostService {
 
         foundPost.update(requestDTO.getP_title(), requestDTO.getP_content(), requestDTO.getCategory());
 
-        return new UpdatePostResponseDTO(foundPost.getPostId(), foundPost.getU_nickname(), foundPost.getCategory(), foundPost.getP_title(), foundPost.getP_content(), foundPost.getP_date());
+        return new UpdatePostResponseDTO(foundPost.getPostId(), foundPost.getUnickname(), foundPost.getCategory(), foundPost.getPtitle(), foundPost.getP_content(), foundPost.getP_date());
     }
 
     // 게시물 삭제
@@ -85,12 +85,32 @@ public class PostService {
 
         return postPage.map(post -> new ReadPostResponseDTO(
                 post.getPostId(),
-                post.getP_title(),
+                post.getPtitle(),
                 post.getP_content(),
-                post.getU_nickname(),
+                post.getUnickname(),
                 post.getCategory(),
                 post.getP_date()
         ));
+
+    }
+
+    public Page<Post> readPost(Pageable pageable) {
+
+        Page<Post> postPage = postRepository.findAll(pageable);
+
+        return postPage.map(post -> new Post(
+                post.getPostId(),
+                post.getPtitle(),
+                post.getP_content(),
+                post.getUnickname(),
+                post.getCategory(),
+                post.getP_date()
+        ));
+
+    }
+
+    public Page<Post> searchPost(String searchKeyword, Pageable pageable){ //검색 기능 추가
+        return postRepository.findByPtitleContaining(searchKeyword, pageable);
 
     }
 }
