@@ -25,14 +25,14 @@
             </form>
             <div>
                 <div class="categorybtn">
-                    <button onclick="loadCategory('전체')"><a th:href="@{/api/v1/posts/main(postId=전체)}"></a>전체</button>
-                    <button onclick="loadCategory('양주')"><a th:href="@{/api/v1/posts/main(postId=양주)}"></a>양주</button>
-                    <button onclick="loadCategory('와인')"><a th:href="@{/api/v1/posts/main(postId=와인)}"></a>와인</button>
-                    <button onclick="loadCategory('샴페인')"><a th:href="@{/api/v1/posts/main(postId=샴페인)}"></a>샴페인</button>
-                    <button onclick="loadCategory('사케')"><a th:href="@{/api/v1/posts/main(postId=사케)}"></a>사케</button>
-                    <button onclick="loadCategory('전통주')"><a th:href="@{/api/v1/posts/main(postId=전통주)}"></a>전통주</button>
-                    <button onclick="loadCategory('폭탄')"><a th:href="@{/api/v1/posts/main(postId=폭탄)}"></a>폭탄</button>
-                    <button onclick="loadCategory('만남')"><a th:href="@{/api/v1/posts/main(postId=만남)}"></a>만남</button>
+                    <button onclick="loadCategory('전체')"><a th:href="@{/api/v1/posts/main(postId=전체)}">전체</a></button>
+                    <button onclick="loadCategory('양주')"><a th:href="@{/api/v1/posts/main(postId=양주)}">양주</a></button>
+                    <button onclick="loadCategory('와인')"><a th:href="@{/api/v1/posts/main(postId=와인)}">와인</a></button>
+                    <button onclick="loadCategory('샴페인')"><a th:href="@{/api/v1/posts/main(postId=샴페인)}">샴페인</a></button>
+                    <button onclick="loadCategory('사케')"><a th:href="@{/api/v1/posts/main(postId=사케)}">사케</a></button>
+                    <button onclick="loadCategory('전통주')"><a th:href="@{/api/v1/posts/main(postId=전통주)}">전통주</a></button>
+                    <button onclick="loadCategory('폭탄')"><a th:href="@{/api/v1/posts/main(postId=폭탄)}">폭탄</a></button>
+                    <button onclick="loadCategory('만남')"><a th:href="@{/api/v1/posts/main(postId=만남)}">만남</a></button>
                 </div>
             </div>
             <!-- 카테고리버튼 누르면 로컬호스트주소 끝에 해당 카테고리 이름 붙음 -->
@@ -61,9 +61,9 @@
                 <tr th:each="item, rowStat : ${readposts.content}">
                     <td th:text="${rowStat.index + readposts.number * readposts.size + 1}"></td>
                     <td>
-                        <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.unickname}"></a>
+                        <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.ptitle}"></a>
                     </td>
-                    <td th:text="${item.ptitle}"></td>
+                    <td th:text="${item.unickname}"></td>
                     <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
                     <td>35</td><!--조회수 -->
                     <td>35</td><!--추천수 -->

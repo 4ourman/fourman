@@ -30,9 +30,9 @@ public class PostService {
     public CreatePostResponseDTO createPost(CreatePostRequestDTO requestDTO) {
 
         Post post = Post.builder()
-                .unickname(requestDTO.getU_nickname())
+                .unickname(requestDTO.getUnickname())
                 .category(requestDTO.getCategory())
-                .ptitle(requestDTO.getP_title())
+                .ptitle(requestDTO.getPtitle())
                 .p_content(requestDTO.getP_content())
                 .p_date(LocalDateTime.now())
                 .build();
@@ -61,7 +61,7 @@ public class PostService {
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 postId로 조회된 게시글이 없습니다."));
 
-        foundPost.update(requestDTO.getP_title(), requestDTO.getP_content(), requestDTO.getCategory());
+        foundPost.update(requestDTO.getPtitle(), requestDTO.getP_content(), requestDTO.getCategory());
 
         return new UpdatePostResponseDTO(foundPost.getPostId(), foundPost.getUnickname(), foundPost.getCategory(), foundPost.getPtitle(), foundPost.getP_content(), foundPost.getP_date());
     }
@@ -85,30 +85,32 @@ public class PostService {
 
         return postPage.map(post -> new ReadPostResponseDTO(
                 post.getPostId(),
-                post.getPtitle(),
-                post.getP_content(),
                 post.getUnickname(),
                 post.getCategory(),
+                post.getPtitle(),
+                post.getP_content(),
                 post.getP_date()
         ));
 
     }
 
-    public Page<Post> readPost(Pageable pageable) {
+    // searchKeword 없을때
+    public Page<Post> readSearch(Pageable pageable) {
 
         Page<Post> postPage = postRepository.findAll(pageable);
 
         return postPage.map(post -> new Post(
                 post.getPostId(),
-                post.getPtitle(),
-                post.getP_content(),
                 post.getUnickname(),
                 post.getCategory(),
+                post.getPtitle(),
+                post.getP_content(),
                 post.getP_date()
         ));
 
     }
 
+    // searchKeyword 있을때
     public Page<Post> searchPost(String searchKeyword, Pageable pageable){ //검색 기능 추가
         return postRepository.findByPtitleContaining(searchKeyword, pageable);
 
