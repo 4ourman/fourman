@@ -32,6 +32,9 @@
             </tbody>
         </table>
         <div>
+            <a th:href="@{'/api/v1/posts/update/' + ${post.postId}}" class="btn btn-secondary">수정</a>
+        </div>
+        <div>
             <div class="comments mt-3">
             </div>
             <form class="postcomment" onsubmit="addComment(event)">

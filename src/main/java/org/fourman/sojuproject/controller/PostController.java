@@ -28,11 +28,6 @@ public class PostController {
 
     private final PostService postService;
 
-//    @GetMapping("/main")
-//    public String main() {
-//        return "/comment/main";
-//    }
-
     @GetMapping("/main")
     public String main(Model model, @PageableDefault(page = 0, size = 10, sort = "postId",
             direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) { //검색 키워드를 searchKeyword로 전달 받음
@@ -93,6 +88,13 @@ public class PostController {
         ReadPostResponseDTO responseDTO = postService.readPostById(postId);
         model.addAttribute("post", responseDTO);
         return "/comment/post";
+    }
+
+    @GetMapping("/update/{postId}")
+    public String getUpdatePage(@PathVariable Long postId, Model model) {
+        ReadPostResponseDTO responseDTO = postService.readPostById(postId);
+        model.addAttribute("post", responseDTO);
+        return "/comment/update";
     }
 
     @PutMapping("/{postId}")
