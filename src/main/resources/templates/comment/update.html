@@ -13,9 +13,8 @@
     <div class="postcreate" style="margin:40px 100px;">
         <h1>게시판 수정</h1>
         <input class="createbtn1" type="button" value="취소" onclick="history.back()">
-        <input class="createbtn2" type="button" id="submit" value="저장" onclick="updatePost()">
-        <hr>
-        <form id="postForm" name="postForm" method="post">
+        <form id="postForm" name="putForm">
+            <input type="hidden" id="postId" th:value="${post.postId}">
             <select class="selectcategory" id="category" name="category" th:value="${post.category}">
                 <option value="">게시글 카테고리</option>
                 <option value="양주">양주</option>
@@ -27,18 +26,62 @@
             </select>
             <table class="board_detail">
                 <tr>
-                    <td><input type="text" id="title" name="title" class="createtitle" placeholder="제목" th:value="${post.ptitle}"></td>
+                    <td><input type="text" id="ptitle" name="ptitle" class="createtitle" placeholder="제목" th:value="${post.ptitle}"></td>
                     <td><input type="file" class="createimg" placeholder="사진등록"></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <textarea id="contents" name="contents" class="createcontent" placeholder="내용" th:text="${post.p_content}"></textarea>
+                        <textarea id="p_content" name="p_content" class="createcontent" placeholder="내용" th:text="${post.p_content}"></textarea>
                     </td>
                 </tr>
             </table>
+            <!-- 수정된 부분: 저장 버튼을 submit 버튼으로 변경 -->
+            <button type="button" class="createbtn2" id="submit" onclick="updatePost()">저장</button>
         </form>
     </div>
     </body>
     <script src="/js/script.js"></script>
+    <script>
+        function updatePost() {
+            var postId = document.getElementById("postId").value;
+            var category = document.getElementById("category").value;
+            var ptitle = document.getElementById("ptitle").value;
+            var p_content = document.getElementById("p_content").value;
+
+            var data = {
+                category: category,
+                ptitle: ptitle,
+                p_content: p_content
+            };
+
+            fetch('/api/v1/posts/update/' + postId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 성공적으로 업데이트된 경우 처리할 내용
+                        console.log('게시글이 성공적으로 업데이트되었습니다.');
+                        // 성공 모달 표시
+                        alert('게시글이 성공적으로 업데이트되었습니다.');
+                        // main 페이지로 이동
+                        window.location.href = '/api/v1/posts/main';
+                    } else {
+                        // 업데이트 실패 시 처리할 내용
+                        console.error('게시글 업데이트에 실패했습니다.');
+                        // 실패 모달 표시
+                        alert('게시글 업데이트에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('네트워크 오류:', error);
+                    // 네트워크 오류 모달 표시
+                    alert('네트워크 오류가 발생했습니다.');
+                });
+        }
+    </script>
 </th:block>
 </html>
