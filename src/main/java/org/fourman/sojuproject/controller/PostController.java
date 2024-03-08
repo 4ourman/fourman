@@ -33,13 +33,17 @@ public class PostController {
         if(searchKeyword == null) {
             readposts = postService.readSearch(pageable);
         } else {
-            log.info("✌ searchKeyword : {}", searchKeyword);
             readposts = postService.searchPost(searchKeyword, pageable);
         }
 
-        int nowPage = readposts.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage -4, 1);
-        int endPage = Math.min(nowPage + 5, readposts.getTotalPages());
+        int nowPage = readposts.getNumber() + 1;
+        int totalPages = readposts.getTotalPages();
+        int pageSize = 10;
+
+        int groupNumber = (nowPage - 1) / pageSize;
+
+        int startPage = groupNumber * pageSize + 1;
+        int endPage = Math.min(startPage + pageSize - 1, totalPages);
 
         model.addAttribute("readposts", readposts);
         model.addAttribute("nowPage",nowPage);

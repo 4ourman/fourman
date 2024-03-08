@@ -59,7 +59,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="item, rowStat : ${readposts.content}">
-                    <td th:text="${rowStat.index + readposts.number * readposts.size + 1}"></td>
+                    <td th:text="${readposts.totalElements - (rowStat.index + readposts.number * readposts.size)}"></td>
                     <td>
                         <a th:href="@{/api/v1/posts/post/{postId}(postId=${item.postId})}" th:text="${item.ptitle}"></a>
                     </td>
@@ -68,12 +68,30 @@
                     <td>35</td><!--조회수 -->
                     <td>35</td><!--추천수 -->
                 </tr>
+                <tr>
+                    <td colspan="6">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${readposts.number > 0 && nowPage > 10} ? '' : 'disabled'">
+                                <a class="page-link" th:if="${nowPage > 10}" th:href="@{|?page=${readposts.number-10}|}" onclick="movePage(${readposts.number-10})">
+                                    <span><이전</span>
+                                </a>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:if="${page != nowPage}"
+                                   th:href="@{/api/v1/posts/main(page=${page - 1})}"
+                                   th:text="${page}" class="page-link"></a>
+                                <strong th:if="${page == nowPage}" th:text="${page}" class="page-link"></strong>
+                            </li>
+                            <li class="page-item" th:classappend="${!readposts.hasNext || endPage >= readposts.totalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:if="${readposts.hasNext && endPage < readposts.totalPages}" th:href="@{|?page=${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1}|}" onclick="movePage(${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1})">
+                                    <span>다음></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
                 </tbody>
             </table>
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${page != nowPage}" th:href="@{/api/v1/posts/main(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
-            </th:block>
         </div>
     </article>
 </th:block>
