@@ -103,7 +103,7 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/post/{postId}")
     @Operation(summary = "게시글 삭제", description = "postId로 게시글 삭제")
     public ResponseEntity<DeletePostResponseDTO> postDelete(@PathVariable Long postId) {
 
