@@ -13,7 +13,7 @@
   <div class="postcreate" style="margin:40px 100px;">
     <h1>게시판 등록</h1>
     <input class="createbtn1" type="submit" value="취소" onclick="history.back()">
-    <input class="createbtn2" type="submit" id="submit" value="저장" onclick="savePost()">
+    <input class="createbtn2" type="submit" id="postsave" value="저장">
     <hr>
     <form id="postForm" name="postForm" method="post" action="/api/v1/posts">
       <select class="selectcategory" id="category" name="category">
@@ -39,8 +39,34 @@
     </form>
   </div>
   </body>
+  <div id="postsavemodal">
+    <div class="modal-dialog">
+      <div class="dropmodal_content">
+        <div class="modal-header">
+          <button type="button" id="postsaveesc">&times;</button>
+          <h4 class="modal-title">게시물 저장</h4>
+        </div>
+        <div class="modal-body">
+          <b> 정말로 저장 하십니까? </b> <br><br>
+          <form action="/" method="post">
+            <table>
+              <tr>
+            </table>
+            <br>
+            <button type="submit" onclick="savePost()" value="저장">저장</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="/js/script.js"></script>
-  <script th:inline="javascript">
+  <script>
+    document.getElementById("postsave").onclick = function() {
+      document.getElementById("postsavemodal").style.display="block";
+    };
+    document.getElementById("postsaveesc").onclick = function() {
+      document.getElementById("postsavemodal").style.display="none";
+    };
     function savePost() {
       var category = document.getElementById("category").value;
       var title = document.getElementById("title").value;
@@ -76,6 +102,5 @@
               });
     }
   </script>
-
 </th:block>
 </html>

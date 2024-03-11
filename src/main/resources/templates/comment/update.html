@@ -13,6 +13,8 @@
     <div class="postcreate" style="margin:40px 100px;">
         <h1>게시판 수정</h1>
         <input class="createbtn1" type="button" value="취소" onclick="history.back()">
+        <!-- 수정된 부분: 저장 버튼을 submit 버튼으로 변경 -->
+        <button type="submit" class="createbtn2" id="postupdate">수정</button>
         <form id="postForm" name="putForm">
             <input type="hidden" id="postId" th:value="${post.postId}">
             <select class="selectcategory" id="category" name="category" th:value="${post.category}">
@@ -35,13 +37,37 @@
                     </td>
                 </tr>
             </table>
-            <!-- 수정된 부분: 저장 버튼을 submit 버튼으로 변경 -->
-            <button type="button" class="createbtn2" id="submit" onclick="updatePost()">저장</button>
         </form>
     </div>
     </body>
+    <div id="updatemodal">
+        <div class="modal-dialog">
+            <div class="dropmodal_content">
+                <div class="modal-header">
+                    <button type="button" id="postupdateesc">&times;</button>
+                    <h4 class="modal-title">게시물 수정</h4>
+                </div>
+                <div class="modal-body">
+                    <b> 정말로 수정 하십니까? </b> <br><br>
+                    <form action="/" method="post">
+                        <table>
+                            <tr>
+                        </table>
+                        <br>
+                        <button type="button" id="submit" onclick="updatePost()">저장</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/js/script.js"></script>
     <script>
+        document.getElementById("postupdate").onclick = function() {
+            document.getElementById("updatemodal").style.display="block";
+        };
+        document.getElementById("postupdateesc").onclick = function() {
+            document.getElementById("updatemodal").style.display="none";
+        };
         function updatePost() {
             var postId = document.getElementById("postId").value;
             var category = document.getElementById("category").value;

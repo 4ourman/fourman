@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -113,6 +114,10 @@ public class PostService {
     // searchKeyword 있을때
     public Page<Post> searchPost(String searchKeyword, Pageable pageable){ //검색 기능 추가
         return postRepository.findByPtitleContaining(searchKeyword, pageable);
-
     }
+
+    public Page<Post> readByCategory(String category, Pageable pageable) { //카테고리로 검색하기
+        return postRepository.findByCategory(category, pageable);
+    }
+
 }

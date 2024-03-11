@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.fourman.sojuproject.reposittory.PostRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,4 +41,5 @@ public class Post {
         this.p_content = p_content;
         this.category = category;
     }
+
 }

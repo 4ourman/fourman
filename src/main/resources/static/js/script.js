@@ -41,9 +41,8 @@ function addComment(event) {
 /* memberinfo */
 document.getElementById("dropmodal_opne_btn").onclick = function() {
     document.getElementById("dropmodal").style.display="block";
-}
+};
 
 document.getElementById("dropmodal_close_btn").onclick = function() {
     document.getElementById("dropmodal").style.display="none";
-}
-
+};

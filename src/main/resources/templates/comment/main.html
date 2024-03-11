@@ -25,27 +25,14 @@
             </form>
             <div>
                 <div class="categorybtn">
-                    <button onclick="loadCategory('전체')"><a th:href="@{/api/v1/posts/main(postId=전체)}">전체</a></button>
-                    <button onclick="loadCategory('양주')"><a th:href="@{/api/v1/posts/main(postId=양주)}">양주</a></button>
-                    <button onclick="loadCategory('와인')"><a th:href="@{/api/v1/posts/main(postId=와인)}">와인</a></button>
-                    <button onclick="loadCategory('샴페인')"><a th:href="@{/api/v1/posts/main(postId=샴페인)}">샴페인</a></button>
-                    <button onclick="loadCategory('사케')"><a th:href="@{/api/v1/posts/main(postId=사케)}">사케</a></button>
-                    <button onclick="loadCategory('전통주')"><a th:href="@{/api/v1/posts/main(postId=전통주)}">전통주</a></button>
-                    <button onclick="loadCategory('폭탄')"><a th:href="@{/api/v1/posts/main(postId=폭탄)}">폭탄</a></button>
-                    <button onclick="loadCategory('만남')"><a th:href="@{/api/v1/posts/main(postId=만남)}">만남</a></button>
+                    <a th:href="@{/api/v1/posts/main}">전체</a>
+                    <a th:href="@{/api/v1/posts/main?category=양주}">양주</a>
+                    <a th:href="@{/api/v1/posts/main?category=사케}">사케</a>
+                    <a th:href="@{/api/v1/posts/main?category=샴페인}">샴페인</a>
+                    <a th:href="@{/api/v1/posts/main?category=전통주}">전통주</a>
+                    <a th:href="@{/api/v1/posts/main?category=폭탄}">폭탄</a>
                 </div>
             </div>
-            <!-- 카테고리버튼 누르면 로컬호스트주소 끝에 해당 카테고리 이름 붙음 -->
-            <script type="text/javascript">
-                function loadCategory(category) {
-
-                    var currentURL = window.location.href;
-
-                    var newURL = currentURL.split('?')[0] + '?' + encodeURIComponent(category);
-
-                    window.location.href = newURL;
-                }
-            </script>
             <table class="boardcontainer">
                 <thead class="boardcontainerhead">
                 <tr>
@@ -65,12 +52,12 @@
                     </td>
                     <td th:text="${item.unickname}"></td>
                     <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
-                    <td>35</td><!--조회수 -->
+                    <td>35</td>
                     <td>35</td><!--추천수 -->
                 </tr>
                 <tr>
                     <td colspan="6">
-                        <ul class="pagination">
+                        <ul class="pagination" th:if="${category == null && searchKeyword == null}">
                             <li class="page-item" th:classappend="${readposts.number > 0 && nowPage > 10} ? '' : 'disabled'">
                                 <a class="page-link" th:if="${nowPage > 10}" th:href="@{|?page=${readposts.number-10}|}" onclick="movePage(${readposts.number-10})">
                                     <span><이전</span>
@@ -84,6 +71,50 @@
                             </li>
                             <li class="page-item" th:classappend="${!readposts.hasNext || endPage >= readposts.totalPages} ? 'disabled' : ''">
                                 <a class="page-link" th:if="${readposts.hasNext && endPage < readposts.totalPages}" th:href="@{|?page=${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1}|}" onclick="movePage(${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1})">
+                                    <span>다음></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <ul class="pagination" th:if="${category != null}">
+                            <li class="page-item" th:classappend="${readposts.number > 0 && nowPage > 10} ? '' : 'disabled'">
+                                <a class="page-link" th:if="${nowPage > 10}" th:href="@{|/api/v1/posts/main?category=${category}&page=${readposts.number-10}|}" onclick="movePage(${readposts.number-10})">
+                                    <span><이전</span>
+                                </a>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:if="${page != nowPage}"
+                                   th:href="@{|/api/v1/posts/main?category=${category}&page=${page - 1}|}"
+                                   th:text="${page}" class="page-link"></a>
+                                <strong th:if="${page == nowPage}" th:text="${page}" class="page-link"></strong>
+                            </li>
+                            <li class="page-item" th:classappend="${!readposts.hasNext || endPage >= readposts.totalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:if="${readposts.hasNext && endPage < readposts.totalPages}" th:href="@{|/api/v1/posts/main?category=${category}&page=${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1}|}" onclick="movePage(${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1})">
+                                    <span>다음></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <ul class="pagination" th:if="${searchKeyword != null}">
+                            <li class="page-item" th:classappend="${readposts.number > 0 && nowPage > 10} ? '' : 'disabled'">
+                                <a class="page-link" th:if="${nowPage > 10}" th:href="@{|/api/v1/posts/main?searchKeyword=${searchKeyword}&page=${readposts.number-10}|}" onclick="movePage(${readposts.number-10})">
+                                    <span><이전</span>
+                                </a>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:if="${page != nowPage}"
+                                   th:href="@{|/api/v1/posts/main?searchKeyword=${searchKeyword}&page=${page - 1}|}"
+                                   th:text="${page}" class="page-link"></a>
+                                <strong th:if="${page == nowPage}" th:text="${page}" class="page-link"></strong>
+                            </li>
+                            <li class="page-item" th:classappend="${!readposts.hasNext || endPage >= readposts.totalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:if="${readposts.hasNext && endPage < readposts.totalPages}" th:href="@{|/api/v1/posts/main?searchKeyword=${searchKeyword}&page=${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1}|}" onclick="movePage(${readposts.number+10 < readposts.totalPages ? readposts.number+10 : readposts.totalPages-1})">
                                     <span>다음></span>
                                 </a>
                             </li>
