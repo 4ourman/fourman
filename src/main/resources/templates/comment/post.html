@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic.html}">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <th:block layout:fragment="headerFragment">
         <link th:href="@{/css/styles.css}" rel="stylesheet" />
@@ -21,7 +22,7 @@
                 <th><div style="position:absolute; margin:-10px -1070px;">조회수:</div></th>
                 <td><div style="position:absolute; margin:-10px -1060px;">35</div></td>
                 <td>
-                    <a class="postbutton" style="position:absolute; margin:-30px -100px;" th:href="@{'/api/v1/posts/update/' + ${post.postId}}">수정</a>
+                    <a class="postbutton" style="position:absolute; margin:-30px -100px;" th:attr="onclick='clickmodify(\'' + ${post.postId} + '\', \'' + ${post.unickname} + '\')'">수정</a>
                     <a class="postbutton" style="position:absolute; margin:-30px -40px;" onclick="confirmDelete()">삭제</a>
                 </td>
             </tr>
@@ -49,6 +50,36 @@
     </body>
     <script src="/js/script.js"></script>
     <script>
+
+        function clickmodify(postId, postAuthor) {
+            // 로그인 상태 확인 API를 호출합니다.
+            jQuery.ajax({
+                url: '/get-logged-in-email',
+                type: 'POST',
+                success: function(response) {
+                    console.log('로그인 상태 확인 API의 응답:', response);
+                    if (response) {
+                        // 로그인된 사용자와 게시물 작성자를 비교하여 수정 권한을 확인합니다.
+                        if (response === postAuthor) {
+                            // 현재 로그인된 사용자와 게시물 작성자가 일치하는 경우 게시물 상세 페이지로 이동합니다.
+                            window.location.href = "/api/v1/posts/update/" + postId;
+                        } else {
+                            // 게시물 작성자와 다른 사용자의 경우 수정할 수 없음을 알립니다.
+                            alert("게시물 작성자만이 수정할 수 있습니다.");
+                        }
+                    } else {
+                        // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
+                        alert("로그인이 필요합니다.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
+                    console.error('상태 코드:', status);
+                    console.error('에러:', error);
+                }
+            });
+        }
+
         function confirmDelete() {
             // 현재 URL에서 postId 추출
             var postId = window.location.pathname.split('/').pop();
