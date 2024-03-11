@@ -23,7 +23,7 @@
                 <td><div style="position:absolute; margin:-10px -1060px;">35</div></td>
                 <td>
                     <a class="postbutton" style="position:absolute; margin:-30px -100px;" th:attr="onclick='clickmodify(\'' + ${post.postId} + '\', \'' + ${post.unickname} + '\')'">수정</a>
-                    <a class="postbutton" style="position:absolute; margin:-30px -40px;" onclick="confirmDelete()">삭제</a>
+                    <a class="postbutton" style="position:absolute; margin:-30px -40px;" th:attr="onclick='confirmDelete(\'' + ${post.postId} + '\', \'' + ${post.unickname} + '\')'">삭제</a>
                 </td>
             </tr>
             </tbody>
@@ -80,7 +80,7 @@
             });
         }
 
-        function confirmDelete() {
+        function confirmDelete(postId, postAuthor) {
             // 현재 URL에서 postId 추출
             var postId = window.location.pathname.split('/').pop();
             console.log('현재 URL의 postId:', postId);
@@ -90,9 +90,34 @@
                 return;
             }
 
-            if (confirm('정말로 삭제하시겠습니까?')) {
-                deletePost(postId);
-            }
+            // 로그인 상태 확인 API를 호출합니다.
+            jQuery.ajax({
+                url: '/get-logged-in-email',
+                type: 'POST',
+                success: function(response) {
+                    console.log('로그인 상태 확인 API의 응답:', response);
+                    if (response) {
+                        // 게시물 작성자와 로그인된 사용자를 비교하여 삭제 권한을 확인합니다.
+                        if (response === postAuthor) {
+                            // 작성자와 로그인된 사용자가 일치하는 경우 삭제 확인 메시지를 표시합니다.
+                            if (confirm('정말로 삭제하시겠습니까?')) {
+                                deletePost(postId);
+                            }
+                        } else {
+                            // 게시물 작성자와 다른 사용자의 경우 삭제할 수 없음을 알립니다.
+                            alert("게시물 작성자만이 삭제할 수 있습니다.");
+                        }
+                    } else {
+                        // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
+                        alert("로그인이 필요합니다.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
+                    console.error('상태 코드:', status);
+                    console.error('에러:', error);
+                }
+            });
         }
 
         function deletePost(postId) {
