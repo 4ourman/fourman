@@ -2,6 +2,7 @@ package org.fourman.sojuproject.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.fourman.sojuproject.domain.entity.Post;
+import org.fourman.sojuproject.reposittory.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 public class PostController {
 
     private final PostService postService;
+    private final PostRepository postRepository;
 
     @GetMapping("/main")
     public String main(
@@ -89,8 +91,18 @@ public class PostController {
 
     @GetMapping("/post/{postId}")
     @Operation(summary = "게시글 단일 조회", description = "postId로 게시글 단일 조회")
-    public String postRead(@PathVariable Long postId, Model model) {
+    public String postRead(@PathVariable("postId") Long postId, Model model) {
+        Post post = postRepository.findById(postId).get();
+        Long viewcount = post.getViewcount() + 1L;
+
         ReadPostResponseDTO responseDTO = postService.readPostById(postId);
+        ReadPostResponseDTO responseDTO1 = ReadPostResponseDTO.builder()
+                .viewcount(viewcount)
+                .build();
+
+        postService.updateView(post.getPostId(), responseDTO1);
+
+        model.addAttribute(post);
         model.addAttribute("post", responseDTO);
         return "/comment/post";
     }

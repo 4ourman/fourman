@@ -2,8 +2,10 @@ package org.fourman.sojuproject.domain.dto.post;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.fourman.sojuproject.domain.entity.Post;
 
 import java.time.LocalDateTime;
 @Getter
@@ -25,4 +27,17 @@ public class ReadPostResponseDTO {
 
     private LocalDateTime p_date;
 
+    @Column(name = "view_count")
+    private Long viewcount;
+
+    @Builder
+    public ReadPostResponseDTO(Long viewcount){
+        this.viewcount = viewcount;
+    }
+
+    public Post toEntity(){
+        return Post.builder()
+                .viewcount(viewcount)
+                .build();
+    }
 }

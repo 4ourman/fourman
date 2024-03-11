@@ -28,10 +28,12 @@
                 <div class="categorybtn">
                     <a th:href="@{/api/v1/posts/main}">전체</a>
                     <a th:href="@{/api/v1/posts/main?category=양주}">양주</a>
+                    <a th:href="@{/api/v1/posts/main?category=와인}">와인</a>
                     <a th:href="@{/api/v1/posts/main?category=사케}">사케</a>
                     <a th:href="@{/api/v1/posts/main?category=샴페인}">샴페인</a>
                     <a th:href="@{/api/v1/posts/main?category=전통주}">전통주</a>
                     <a th:href="@{/api/v1/posts/main?category=폭탄}">폭탄</a>
+                    <a th:href="@{/api/v1/posts/main?category=만남}">만남</a>
                 </div>
             </div>
             <table class="boardcontainer">
@@ -53,7 +55,7 @@
                     </td>
                     <td th:text="${item.unickname}"></td>
                     <td th:text="${#temporals.format(item.p_date, 'MM-dd HH:mm')}"></td>
-                    <td>35</td>
+                    <td th:text="${item.viewcount}"></td>
                     <td>35</td><!--추천수 -->
                 </tr>
                 <tr>

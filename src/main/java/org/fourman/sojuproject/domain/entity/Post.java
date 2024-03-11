@@ -22,6 +22,7 @@ public class Post {
 
     @Id
     @GeneratedValue
+    @Column(name = "post_id")
     private Long postId;
 
     @Column(name = "u_nickname")  // 속성명에 대한 매핑 추가
@@ -36,10 +37,16 @@ public class Post {
 
     private LocalDateTime p_date;
 
+    @Column(name = "view_count")
+    private Long viewcount;
+
     public void update(String ptitle, String p_content, String category) {
         this.ptitle = ptitle;
         this.p_content = p_content;
         this.category = category;
     }
 
+    public void updateView(Long viewcount){
+        this.viewcount = viewcount;
+    }
 }

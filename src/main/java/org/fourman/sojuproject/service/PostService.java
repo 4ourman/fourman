@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.fourman.sojuproject.domain.dto.post.*;
 import org.fourman.sojuproject.domain.entity.Post;
 import org.fourman.sojuproject.reposittory.PostRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,7 +52,7 @@ public class PostService {
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 postId로 조회된 게시글이 없습니다."));
 
-        return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getUnickname(), foundPost.getCategory(), foundPost.getPtitle(), foundPost.getP_content(), foundPost.getP_date());
+        return new ReadPostResponseDTO(foundPost.getPostId(), foundPost.getUnickname(), foundPost.getCategory(), foundPost.getPtitle(), foundPost.getP_content(), foundPost.getP_date(), foundPost.getViewcount());
 
     }
 
@@ -90,7 +91,8 @@ public class PostService {
                 post.getCategory(),
                 post.getPtitle(),
                 post.getP_content(),
-                post.getP_date()
+                post.getP_date(),
+                post.getViewcount()
         ));
 
     }
@@ -106,7 +108,8 @@ public class PostService {
                 post.getCategory(),
                 post.getPtitle(),
                 post.getP_content(),
-                post.getP_date()
+                post.getP_date(),
+                post.getViewcount()
         ));
 
     }
@@ -118,6 +121,14 @@ public class PostService {
 
     public Page<Post> readByCategory(String category, Pageable pageable) { //카테고리로 검색하기
         return postRepository.findByCategory(category, pageable);
+    }
+
+    @Transactional
+    public void updateView(Long postId, ReadPostResponseDTO readPostResponseDTO){
+        Post post = postRepository.findById(postId).orElseThrow((() ->
+                new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")));
+
+        post.updateView(readPostResponseDTO.getViewcount());
     }
 
 }

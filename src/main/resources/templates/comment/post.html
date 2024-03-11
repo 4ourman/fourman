@@ -16,10 +16,14 @@
                 <td style="font-weight:800; font-size:45px;" colspan="3" th:text="${post.ptitle}">제목</td>
             </tr>
             <tr style="text-align: left;">
-                <th scope="row">작성자</th>
-                <td th:text="${post.unickname}"></td>
-                <th style="font-weight:100;" scope="row">조회</th>
-                <td>조회수</td><!-- 조회수는 여기에 표시 -->
+                <th><div>작성자:</div></th>
+                <td><div th:text="${post.unickname}" style="position:absolute; margin:-10px -1130px;"></div></td>
+                <th><div style="position:absolute; margin:-10px -1070px;">조회수:</div></th>
+                <td><div style="position:absolute; margin:-10px -1060px;">35</div></td>
+                <td>
+                    <a class="postbutton" style="position:absolute; margin:-30px -100px;" th:href="@{'/api/v1/posts/update/' + ${post.postId}}">수정</a>
+                    <a class="postbutton" style="position:absolute; margin:-30px -40px;" onclick="confirmDelete()">삭제</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -31,10 +35,6 @@
             </tr>
             </tbody>
         </table>
-        <div>
-            <a th:href="@{'/api/v1/posts/update/' + ${post.postId}}" class="btn btn-secondary">수정</a>
-            <button onclick="confirmDelete()">삭제</button>
-        </div>
         <div>
             <div class="comments mt-3">
             </div>
