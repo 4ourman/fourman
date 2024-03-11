@@ -25,13 +25,20 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/main")
-    public String main(Model model, @PageableDefault(page = 0, size = 10, sort = "postId",
-            direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) {
+    public String main(
+            Model model,
+            @PageableDefault(page = 0, size = 10, sort = "postId", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(name = "searchKeyword", required = false) String searchKeyword,
+            @RequestParam(name = "category", required = false) String category) {
 
         Page<Post> readposts;
 
-        if(searchKeyword == null) {
-            readposts = postService.readSearch(pageable);
+        if (searchKeyword == null) {
+            if (category == null) {
+                readposts = postService.readSearch(pageable);
+            } else {
+                readposts = postService.readByCategory(category, pageable);
+            }
         } else {
             readposts = postService.searchPost(searchKeyword, pageable);
         }
@@ -46,9 +53,12 @@ public class PostController {
         int endPage = Math.min(startPage + pageSize - 1, totalPages);
 
         model.addAttribute("readposts", readposts);
-        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage",endPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("category", category);
+
         return "comment/main";
     }
 
@@ -103,7 +113,7 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/post/{postId}")
     @Operation(summary = "게시글 삭제", description = "postId로 게시글 삭제")
     public ResponseEntity<DeletePostResponseDTO> postDelete(@PathVariable Long postId) {
 

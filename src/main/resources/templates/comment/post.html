@@ -16,10 +16,13 @@
                 <td style="font-weight:800; font-size:45px;" colspan="3" th:text="${post.ptitle}">제목</td>
             </tr>
             <tr style="text-align: left;">
-                <th scope="row">작성자</th>
-                <td th:text="${post.unickname}"></td>
-                <th style="font-weight:100;" scope="row">조회</th>
-                <td>조회수</td><!-- 조회수는 여기에 표시 -->
+                <th><div>작성자:</div></th>
+                <td><div th:text="${post.unickname}" style="position:absolute; margin:-10px -1060px;"></div></td>
+                <th><div style="position:absolute; margin:-10px -950px;">조회수:</div></th>
+                <td><div style="position:absolute; margin:-10px -930px;">35</div></td>
+                <td>
+                    <a th:href="@{'/api/v1/posts/update/' + ${post.postId}}" class="btn btn-secondary">수정</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -32,20 +35,24 @@
             </tbody>
         </table>
         <div>
-            <a th:href="@{'/api/v1/posts/update/' + ${post.postId}}" class="btn btn-secondary">수정</a>
-        </div>
-        <div>
             <div class="comments mt-3">
             </div>
             <form class="postcomment" onsubmit="addComment(event)">
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 15px;">
                     <input type="text" class="form-control2" placeholder="댓글을 입력하세요" required>
+                    <button type="submit" class="btn btn-primary">작성</button>
                 </div>
-                <button type="submit" class="btn btn-primary">작성</button>
             </form>
         </div>
     </div>
     </body>
     <script src="/js/script.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+    </style>
 </th:block>
 </html>

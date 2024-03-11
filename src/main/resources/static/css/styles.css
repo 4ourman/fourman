@@ -129,17 +129,22 @@
     margin: 15px 80px;
 }
 
-.categorybtn button{
-    width: 100px;
-    height: 40px;
-    color:red;
-    box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;
-    border-style:none;
-    margin-right:10px;
+.categorybtn {
+    display: flex;
+    gap: 10px;
 }
 
-.categorybtn button:active{
-    box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
+.categorybtn a {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.categorybtn a:hover {
+    background-color: #2077b3;
 }
 
 /* main */
@@ -228,7 +233,6 @@
     transition: background-color 0.3s ease;
 }
 
-/* 활성화된 페이지 번호 스타일 */
 .pagination strong {
     color: white;
     background-color: #d9534f;
@@ -365,20 +369,105 @@
     border-style:none;
 }
 
+#postsavemodal {
+    display: none;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index:999;
+}
+
+#postsavemodal .dropmodal_content{
+    width:100%;
+    max-width:400px;
+    padding: 15px;
+    background:#fff;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(170%, 100%);
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+}
+
+/* 닫기 버튼 스타일 */
+#postsaveesc {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 /*post*/
-.postcontent2{
-    border-bottom: 1px solid;
-    padding-bottom:100px;
-    width: 1340px;
+.postcontent {
+    background-color: #fff;
+    width: 1380px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-control2{
-    position:absolute;;
-    margin: 0 -870px;
+.postcontent2 {
+    margin-top: 20px;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
 }
 
-.postcomment button{
-    margin: 0 210px;
+.view_text {
+    text-align: left;
+}
+
+.postcomment {
+    margin-top: 20px;
+}
+
+.form-control2 {
+    width: 70%;
+    padding: 10px;
+}
+
+.btn-primary {
+    background-color: #35a845;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #2e8540;
+}
+
+.btn-secondary {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+}
+
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* memberinfo */
@@ -417,7 +506,7 @@
     right:0;
     bottom:0;
     background: rgba(0, 0, 0, 0.4);
-    z-index:1;
+    z-index:999;
 }
 
 #dropmodal .dropmodal_content {
@@ -447,3 +536,36 @@
     justify-content: flex-end;
 }
 
+/* update */
+#updatemodal {
+    display: none;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index:999;
+}
+
+#updatemodal .dropmodal_content{
+    width:100%;
+    max-width:400px;
+    padding: 15px;
+    background:#fff;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(170%, 100%);
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+}
+
+/* 닫기 버튼 스타일 */
+#postupdateesc {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
