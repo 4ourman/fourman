@@ -77,4 +77,15 @@
             return ResponseEntity.ok(isLoggedIn);
         }
 
+        @PostMapping("/get-logged-in-email")
+        public ResponseEntity<String> getLoggedInUserEmail(HttpServletRequest request) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                String loggedInEmail = membershipService.getLoggedInUserEmail(session);
+                return ResponseEntity.ok(loggedInEmail);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 만료되었습니다.");
+            }
+        }
+
     }

@@ -90,4 +90,10 @@ public class MembershipService {
         return session.getAttribute("loggedInMember") != null;
     }
 
+    // 현재 로그인된 사용자의 이메일 가져오기
+    public String getLoggedInUserEmail(HttpSession session) {
+        String loggedInEmail = (String) session.getAttribute("loggedInMember");
+        return loggedInEmail != null ? loggedInEmail : "";
+    }
+
 }
