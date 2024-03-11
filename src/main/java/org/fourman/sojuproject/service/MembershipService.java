@@ -85,4 +85,9 @@ public class MembershipService {
         }
     }
 
+    // 로그인 상태 확인
+    public boolean isLoggedIn(HttpSession session) {
+        return session.getAttribute("loggedInMember") != null;
+    }
+
 }
