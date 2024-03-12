@@ -38,7 +38,7 @@ public class Post {
     private LocalDateTime p_date;
 
     @Column(name = "view_count")
-    private Long viewcount;
+    private Long viewcount = 0L;
 
     public void update(String ptitle, String p_content, String category) {
         this.ptitle = ptitle;

@@ -31,21 +31,22 @@ public class PostService {
     // 게시글 생성
     @Transactional
     public CreatePostResponseDTO createPost(CreatePostRequestDTO requestDTO) {
-
+        // 생성 시 view_count를 0으로 초기화하여 저장
         Post post = Post.builder()
                 .unickname(requestDTO.getUnickname())
                 .category(requestDTO.getCategory())
                 .ptitle(requestDTO.getPtitle())
                 .p_content(requestDTO.getP_content())
                 .p_date(LocalDateTime.now())
+                .viewcount(0L)
                 .build();
 
         Post savedPost = postRepository.save(post);
 
         return new CreatePostResponseDTO(savedPost.getPostId(), savedPost.getUnickname(),
                 savedPost.getCategory(),  savedPost.getPtitle(), savedPost.getP_content(), savedPost.getP_date());
-
     }
+
 
     // 게시글 조회
     public ReadPostResponseDTO readPostById(Long postId) {
