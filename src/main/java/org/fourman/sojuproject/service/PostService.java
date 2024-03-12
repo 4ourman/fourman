@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -129,6 +130,25 @@ public class PostService {
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")));
 
         post.updateView(readPostResponseDTO.getViewcount());
+    }
+
+    public ResponseEntity<List<ReadPostResponseDTO>> getTop5PostsByViewCount() {
+        List<Post> top5Posts = postRepository.findTop5ByOrderByViewcountDesc();
+        List<ReadPostResponseDTO> top5PostsDTOs = mapPostsToDTOs(top5Posts);
+        return new ResponseEntity<>(top5PostsDTOs, HttpStatus.OK);
+    }
+
+    private List<ReadPostResponseDTO> mapPostsToDTOs(List<Post> posts) {
+        return posts.stream()
+                .map(post -> new ReadPostResponseDTO(
+                        post.getPostId(),
+                        post.getUnickname(),
+                        post.getCategory(),
+                        post.getPtitle(),
+                        post.getP_content(),
+                        post.getP_date(),
+                        post.getViewcount()))
+                .collect(Collectors.toList());
     }
 
 }

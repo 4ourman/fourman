@@ -5,6 +5,9 @@
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <title>회원가입</title>
     <style>
+        body{
+            background-color: #29353b;
+        }
         .container {
             margin-top: 50px;
         }
@@ -72,8 +75,12 @@
                 <label class="form-control-label">주소</label>
                 <input type="text" id="address" class="form-control">
             </div>
+            <label style="color:#ff3d3d;">
+                <input style="color:blue;" type="checkbox" id="ageCheckbox"> 19세 이상이십니까?
+            </label>
             <div class="joinbtn">
-                <button id="nextStep">다음</button>
+                <button id="joinesc">취소</button>
+                <button id="nextStep" onclick="nextButtonClick()">다음</button>
             </div>
         </form>
         <form id="registerFormStep2" style="display: none;">
@@ -90,6 +97,7 @@
                 <input type="text" id="nickname" class="form-control">
             </div>
             <div class="joinbtn">
+                <button id="joinback">이전</button>
                 <button id="registerButton">회원가입</button>
             </div>
             <div id="loginButton" class="joinbtn">
@@ -105,6 +113,7 @@
         <span class="close">&times;</span>
         <p id="modalMessage"></p>
         <button id="confirmButton">확인</button>
+        <button onclick="history.back()">취소</button>
     </div>
 </div>
 
@@ -113,6 +122,18 @@
         event.preventDefault();
         document.getElementById('registerFormStep1').style.display = 'none';
         document.getElementById('registerFormStep2').style.display = 'block';
+    });
+
+    document.getElementById('joinback').addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('registerFormStep1').style.display = 'block';
+        document.getElementById('registerFormStep2').style.display = 'none';
+    });
+
+    document.getElementById('joinesc').addEventListener('click', function(event) {
+        event.preventDefault();
+        console.log('취소 버튼 클릭됨');
+        window.location.href = "/api/v1/posts/main";
     });
 
     document.getElementById('registerFormStep2').addEventListener('submit', function(event) {
@@ -164,6 +185,20 @@
     document.getElementById('confirmButton').addEventListener('click', function() {
         window.location.href = "/api/v1/posts/main"; // 메인 페이지의 URL로 이동
     });
+
+    function nextButtonClick() {
+        var ageCheckbox = document.getElementById('ageCheckbox');
+
+        if (ageCheckbox.checked) {
+            console.log('1');
+            // 다음 버튼 직접 클릭
+            document.getElementById('nextStep').click();
+        } else {
+            // 체크박스가 선택되어 있지 않으면 경고창 표시
+            alert('19세 이상 여부를 체크해주세요!');
+            window.location.href = "/api/v1/posts/main";
+        }
+    }
 </script>
 </body>
 </html>

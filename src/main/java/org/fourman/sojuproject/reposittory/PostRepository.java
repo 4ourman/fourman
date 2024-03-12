@@ -17,4 +17,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByPtitleContaining(String title, Pageable pageable);; //제목에 포함된 키워드를 찾는 메서드
 
     Page<Post> findByCategory(String category, Pageable pageable); //카테고리로 게시글 찾기
+
+    List<Post> findTop5ByOrderByViewcountDesc();
 }

@@ -40,7 +40,8 @@
     </div>
   </div>
   <div class="popularcontainer">
-    <div style="text-align:center;">실시간 인기 검색어</div>
+    <h2>&#x1F525;실시간 인기 게시글&#x1F525;</h2>
+    <div class="topPost" id="topPostsContainer"></div>
   </div>
   <script layout:fragment="script" th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function() {
@@ -148,6 +149,29 @@
       }
     }
 
+    fetch('/api/v1/posts/top5ByViewCount')
+            .then(response => response.json())
+            .then(data => {
+              const topPostsContainer = document.getElementById('topPostsContainer');
+              data.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.innerHTML = `
+          <h3 class="postTitle" data-post-id="${post.postId}">${post.ptitle}</h3>
+        `;
+                topPostsContainer.appendChild(postElement);
+              });
+
+              const postTitles = document.querySelectorAll('.postTitle');
+              postTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                  const postId = title.getAttribute('data-post-id');
+                  window.location.href = `/api/v1/posts/post/${postId}`; // 게시글 ID에 맞게 URL 수정
+                });
+              });
+            })
+            .catch(error => {
+              console.error('네트워크 에러:', error);
+            });
   </script>
 </th:block>
 </html>

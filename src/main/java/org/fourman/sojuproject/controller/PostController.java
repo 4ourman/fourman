@@ -17,6 +17,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
@@ -144,5 +146,10 @@ public class PostController {
 
         return new ResponseEntity<>(readPostResponseDTOS, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/top5ByViewCount")
+    public ResponseEntity<List<ReadPostResponseDTO>> getTop5PostsByViewCount() {
+        return postService.getTop5PostsByViewCount();
     }
 }

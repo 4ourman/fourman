@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-body">
                     <b>회원 탈퇴 후 복구는 불가능합니다. <br> 정말로 탈퇴하시겠습니까? </b> <br><br>
-                    <form action="/" method="post">
+                    <form action="/withdraw" method="post" onsubmit="return deleteMember();">
                         <input type="hidden" name="userId" value="<%=userId%>">
                         <table>
                             <tr>
@@ -79,14 +79,18 @@
                             </tr>
                         </table>
                         <br>
-                        <button type="submit"  onclick="return deleteMember();">탈퇴</button>
+                        <button type="submit" class="pwchangebtn">탈퇴</button>
                     </form>
                     <script>
-                        function deleteMember(){
-                            if($("input[name=userPwd]").val() != "<%=userPwd%>"){
+                        function deleteMember() {
+                            if ($("input[name=userPwd]").val() !== "<%=userPwd%>") {
                                 alert("비밀번호가 틀렸습니다.");
                                 return false;
                             }
+
+                            // 추가적인 확인이 필요하다면
+                            var confirmWithdraw = confirm("정말로 탈퇴하시겠습니까?");
+                            return confirmWithdraw;
                         }
                     </script>
                 </div>
