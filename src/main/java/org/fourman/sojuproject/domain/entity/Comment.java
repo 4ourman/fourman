@@ -1,8 +1,6 @@
 package org.fourman.sojuproject.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,13 +27,24 @@ public class Comment {
     //@Lob
     private String c_content;
 
-    private LocalDateTime cRegDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime cRegDate = LocalDateTime.now();
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime cModDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     public void setCContent(String c_content) {
         this.c_content = c_content;
+    }
+
+
+    public void setCModDate(LocalDateTime cModDate) {
+        this.cModDate = cModDate;
     }
 
 

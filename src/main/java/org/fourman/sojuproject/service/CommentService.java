@@ -31,8 +31,8 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .u_nick_name((requestDTO.getU_nick_name()))
                 .c_content(requestDTO.getC_content())
-                .cRegDate(now)
-                .cModDate(now)
+                .cRegDate(requestDTO.getRegDate() != null ? requestDTO.getRegDate() : now) // 클라이언트에서 전달된 시간 또는 현재 시간 사용
+                .cModDate(requestDTO.getModDate() != null ? requestDTO.getModDate() : now) // 클라이언트에서 전달된 시간 또는 현재 시간 사용
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
@@ -62,12 +62,14 @@ public class CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 commentId로 조회된 댓글이 없습니다."));
 
         foundComment.setCContent(requestDTO.getC_content());
+        foundComment.setCModDate(requestDTO.getModDate() != null ? requestDTO.getModDate() : LocalDateTime.now());
 
         return new UpdateCommentResponseDTO(
                 foundComment.getCommentId(),
                 foundComment.getU_nick_name(),
                 foundComment.getC_content(),
-                foundComment.getCModDate()
+                foundComment.getCModDate(),
+                foundComment.getCRegDate()
         );
     }
 

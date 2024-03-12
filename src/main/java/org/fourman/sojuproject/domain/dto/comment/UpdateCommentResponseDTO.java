@@ -17,6 +17,8 @@ public class UpdateCommentResponseDTO {
 
     private String c_content;
 
+    private LocalDateTime cRegDate;
+
     private LocalDateTime cModDate;
 
 

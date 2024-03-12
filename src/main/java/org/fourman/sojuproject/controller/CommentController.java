@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,12 +37,19 @@ public class CommentController {
 
     @GetMapping("/{commentId}")
     @Operation(summary = "댓글 단일 조회", description = "commentId로 댓글 단일 조회")
-    public ResponseEntity<ReadCommentResponseDTO> readCommentById(@PathVariable Long commentId) {
+    public String commentRead(@PathVariable Long commentId, Model model) {
 
-        ReadCommentResponseDTO comment = commentService.readCommentById(commentId);
+        ReadCommentResponseDTO responseDTO= commentService.readCommentById(commentId);
+        model.addAttribute("comment", responseDTO);
 
-        return ResponseEntity.ok(comment);
+        return "/comment/post";
+    }
 
+    @GetMapping("/update/{commentId}")
+    public String getUpdatePage(@PathVariable Long commentId, Model model) {
+        ReadCommentResponseDTO responseDTO = commentService.readCommentById(commentId);
+        model.addAttribute("comment", responseDTO);
+        return "/comment/update";
     }
 
     @PutMapping("/{commentId}")
