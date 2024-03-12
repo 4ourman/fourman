@@ -12,15 +12,15 @@
     <div class="postcontent" style="margin:40px 80px;">
         <table style="border-bottom:1px solid; width: 1340px;">
             <tbody>
-            <h5 style="color:#35a845;">양주 게시판</h5>
+            <h5 style="color:#35a845;" th:text="${post.category}"></h5>
             <tr>
                 <td style="font-weight:800; font-size:45px;" colspan="3" th:text="${post.ptitle}">제목</td>
             </tr>
             <tr style="text-align: left;">
                 <th><div>작성자:</div></th>
-                <td><div th:text="${post.unickname}" style="position:absolute; margin:-10px -1130px;"></div></td>
+                <td><div th:text="${post.unickname}" style="position:absolute; margin:-10px -1100px;"></div></td>
                 <th><div style="position:absolute; margin:-10px -1070px;">조회수:</div></th>
-                <td><div style="position:absolute; margin:-10px -1060px;">35</div></td>
+                <td><div style="position:absolute; margin:-10px -1060px;" th:text="${post.viewcount}"></div></td>
                 <td>
                     <a class="postbutton" style="position:absolute; margin:-30px -100px;" th:attr="onclick='clickmodify(\'' + ${post.postId} + '\', \'' + ${post.unickname} + '\')'">수정</a>
                     <a class="postbutton" style="position:absolute; margin:-30px -40px;" th:attr="onclick='confirmDelete(\'' + ${post.postId} + '\', \'' + ${post.unickname} + '\')'">삭제</a>
@@ -38,107 +38,268 @@
         </table>
         <div>
             <div class="comments mt-3">
+                <ul id="commentList">
+
+                </ul>
             </div>
-            <form class="postcomment" onsubmit="addComment(event)">
-                <div class="form-group">
-                    <input type="text" class="form-control2" placeholder="댓글을 입력하세요" required>
-                </div>
-                <button type="submit" class="btn btn-primary">작성</button>
-            </form>
+            </div>
+        <form class="postcomment" id="commentForm" onsubmit="submitComment(event)">
+            <div class="form-group">
+                <h2>댓글 작성</h2>
+                <input type="text" id="nickname" placeholder="닉네임입력">
+                <input type="text" id="commentContent" placeholder="댓글 내용">
+                <button type="submit">작성</button>
+                <input type="hidden" id="postId" value="1">
+            </div>
+        </form>
         </div>
     </div>
     </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="/js/script.js"></script>
     <script>
 
-        function clickmodify(postId, postAuthor) {
-            // 로그인 상태 확인 API를 호출합니다.
-            jQuery.ajax({
-                url: '/get-logged-in-email',
-                type: 'POST',
-                success: function(response) {
-                    console.log('로그인 상태 확인 API의 응답:', response);
-                    if (response) {
-                        // 로그인된 사용자와 게시물 작성자를 비교하여 수정 권한을 확인합니다.
-                        if (response === postAuthor) {
-                            // 현재 로그인된 사용자와 게시물 작성자가 일치하는 경우 게시물 상세 페이지로 이동합니다.
-                            window.location.href = "/api/v1/posts/update/" + postId;
-                        } else {
-                            // 게시물 작성자와 다른 사용자의 경우 수정할 수 없음을 알립니다.
-                            alert("게시물 작성자만이 수정할 수 있습니다.");
-                        }
-                    } else {
-                        // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
-                        alert("로그인이 필요합니다.");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
-                    console.error('상태 코드:', status);
-                    console.error('에러:', error);
-                }
-            });
+
+            // 서버로부터 받은 댓글 데이터를 화면에 표시하는 함수
+            function displayComments(comments) {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = '';
+
+            comments.forEach(comment => {
+            const commentDiv = document.createElement('div');
+
+            const createTime = moment(comment.createTime).format('YYYY-MM-DD HH:mm:ss'); // 작성 시간
+            const updateTime = moment(comment.updateTime).format('YYYY-MM-DD HH:mm:ss'); // 수정 시간
+
+            commentDiv.innerHTML = `
+            <li data-comment-id="${comment.commentId}">
+                <p><strong>${comment.u_nick_name}</strong></p>
+                <p><strong>${updateTime}</strong></p>
+                <p class="comment-content">${comment.c_content}</p>
+                <button onclick="editComment(${comment.commentId}, '${comment.c_content}', '${updateTime}')">수정</button>
+                <button onclick="deleteComment(${comment.commentId})">삭제</button>
+            </li>
+        `;
+            commentList.appendChild(commentDiv);
+        });
         }
 
-        function confirmDelete(postId, postAuthor) {
-            // 현재 URL에서 postId 추출
-            var postId = window.location.pathname.split('/').pop();
-            console.log('현재 URL의 postId:', postId);
+            // 댓글 작성 폼을 제출할 때 실행되는 함수
+            function submitComment(event) {
+            event.preventDefault();
+            const postId = document.getElementById('postId').value;
+            const nickname = document.getElementById('nickname').value;
+            const commentContent = document.getElementById('commentContent').value;
 
-            if (!postId) {
-                console.error('postId가 올바르게 전달되지 않았습니다.');
-                return;
-            }
+            fetch('/api/v1/comments', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+            postId: postId,
+            u_nick_name: nickname,
+            c_content: commentContent
+        })
+        })
+            .then(response => response.json())
+            .then(data => {
+            // 새로운 댓글을 화면에 표시
+            displayNewComment(data);
 
-            // 로그인 상태 확인 API를 호출합니다.
-            jQuery.ajax({
-                url: '/get-logged-in-email',
-                type: 'POST',
-                success: function(response) {
-                    console.log('로그인 상태 확인 API의 응답:', response);
-                    if (response) {
-                        // 게시물 작성자와 로그인된 사용자를 비교하여 삭제 권한을 확인합니다.
-                        if (response === postAuthor) {
-                            // 작성자와 로그인된 사용자가 일치하는 경우 삭제 확인 메시지를 표시합니다.
-                            if (confirm('정말로 삭제하시겠습니까?')) {
-                                deletePost(postId);
-                            }
-                        } else {
-                            // 게시물 작성자와 다른 사용자의 경우 삭제할 수 없음을 알립니다.
-                            alert("게시물 작성자만이 삭제할 수 있습니다.");
-                        }
-                    } else {
-                        // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
-                        alert("로그인이 필요합니다.");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
-                    console.error('상태 코드:', status);
-                    console.error('에러:', error);
-                }
-            });
+            // 댓글 작성 후, 서버로부터 댓글 목록을 다시 가져와서 화면에 표시
+            refreshCommentList();
+
+            // 댓글 작성 후, 입력 필드 초기화
+            document.getElementById('nickname').value = '';
+            document.getElementById('commentContent').value = '';
+        })
+            .catch(error => console.error('Error:', error));
         }
 
-        function deletePost(postId) {
-            fetch('/api/v1/posts/post/' + postId, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // 성공적으로 삭제된 경우
-                        console.log('게시물이 성공적으로 삭제되었습니다.');
-                        // 메인 페이지로 이동
-                        window.location.href = '/api/v1/posts/main';
-                    } else {
-                        // 삭제 실패한 경우
-                        console.error('게시물 삭제에 실패했습니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('네트워크 오류:', error);
-                });
+            // 새로운 댓글을 화면에 표시하는 함수
+            function displayNewComment(comment) {
+            const commentList = document.getElementById('commentList');
+            const commentDiv = document.createElement('div');
+
+            const updateTime = moment(comment.updateTime).format('YYYY-MM-DD HH:mm:ss'); // 수정 시간
+
+            commentDiv.innerHTML = `
+        <li data-comment-id="${comment.commentId}">
+            <p><strong>${comment.u_nick_name}</strong></p>
+            <p><strong>${updateTime}</strong></p>
+            <p class="comment-content">${comment.c_content}</p>
+            <button onclick="editComment(${comment.commentId}, '${comment.c_content}')">수정</button>
+            <button onclick="deleteComment(${comment.commentId})">삭제</button>
+        </li>
+    `;
+            commentList.appendChild(commentDiv);
         }
+
+            // 수정 버튼을 클릭할 때 실행되는 함수
+            function editComment(commentId, content) {
+            const editedContent = prompt("댓글을 수정하세요", content);
+            if (editedContent != null && editedContent.trim() !== "") {
+            const modDate = new Date(); // 현재 시간을 가져와서 수정 시간으로 사용
+
+            fetch(`/api/v1/comments/${commentId}`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+            c_content: editedContent,
+            modDate: modDate // 수정 시간을 함께 전송
+        })
+        })
+            .then(response => response.json())
+            .then(data => {
+            // 수정된 댓글을 화면에 반영
+            const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
+            if (commentElement) {
+            // 댓글 내용만 업데이트
+            const commentContentElement = commentElement.querySelector('.comment-content');
+            commentContentElement.innerText = editedContent;
+
+            // 작성 시간 업데이트
+            const createTimeElement = commentElement.querySelector('p:nth-child(2) > strong');
+            createTimeElement.innerText = moment(modDate).format('YYYY-MM-DD HH:mm:ss');
+
+            // 수정 시간 업데이트
+
+        }
+        })
+            .catch(error => console.error('Error:', error));
+        }
+        }
+            //댓글 삭제 함수
+            function deleteComment(commentId) {
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+            fetch(`/api/v1/comments/${commentId}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+            if (response.ok) {
+            // 성공적으로 삭제되면 해당 댓글을 화면에서 제거
+            const commentElement = document.querySelector(`li[data-comment-id="${commentId}"]`);
+            if (commentElement) {
+            commentElement.remove();
+        }
+        } else {
+            console.error('댓글 삭제 실패:', response.statusText);
+        }
+        })
+            .catch(error => console.error('네트워크 에러:', error));
+        }
+        }
+
+            // 페이지 로드 시 서버로부터 댓글 데이터를 요청하여 화면에 표시
+            window.onload = function() {
+            onPageLoad();
+        };
+
+            //페이지 로드 시 실행되는 함수
+            function onPageLoad() {
+            const postId = 1;
+
+            fetch('/api/v1/comments?postId=' + postId)
+            .then(response => response.json())
+            .then(comments => {
+            displayComments(comments);
+        })
+            .catch(error => console.error('Error:', error));
+        }
+
+
+
+    function clickmodify(postId, postAuthor) {
+    // 로그인 상태 확인 API를 호출합니다.
+    jQuery.ajax({
+    url: '/get-logged-in-email',
+    type: 'POST',
+    success: function(response) {
+    console.log('로그인 상태 확인 API의 응답:', response);
+    if (response) {
+    // 로그인된 사용자와 게시물 작성자를 비교하여 수정 권한을 확인합니다.
+    if (response === postAuthor) {
+    // 현재 로그인된 사용자와 게시물 작성자가 일치하는 경우 게시물 상세 페이지로 이동합니다.
+    window.location.href = "/api/v1/posts/update/" + postId;
+    } else {
+    // 게시물 작성자와 다른 사용자의 경우 수정할 수 없음을 알립니다.
+    alert("게시물 작성자만이 수정할 수 있습니다.");
+    }
+    } else {
+    // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
+    alert("로그인이 필요합니다.");
+    }
+    },
+    error: function(xhr, status, error) {
+    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
+    console.error('상태 코드:', status);
+    console.error('에러:', error);
+    }
+    });
+    }
+
+    function confirmDelete(postId, postAuthor) {
+    // 현재 URL에서 postId 추출
+    var postId = window.location.pathname.split('/').pop();
+    console.log('현재 URL의 postId:', postId);
+
+    if (!postId) {
+    console.error('postId가 올바르게 전달되지 않았습니다.');
+    return;
+    }
+
+    // 로그인 상태 확인 API를 호출합니다.
+    jQuery.ajax({
+    url: '/get-logged-in-email',
+    type: 'POST',
+    success: function(response) {
+    console.log('로그인 상태 확인 API의 응답:', response);
+    if (response) {
+    // 게시물 작성자와 로그인된 사용자를 비교하여 삭제 권한을 확인합니다.
+    if (response === postAuthor) {
+    // 작성자와 로그인된 사용자가 일치하는 경우 삭제 확인 메시지를 표시합니다.
+    if (confirm('정말로 삭제하시겠습니까?')) {
+    deletePost(postId);
+    }
+    } else {
+    // 게시물 작성자와 다른 사용자의 경우 삭제할 수 없음을 알립니다.
+    alert("게시물 작성자만이 삭제할 수 있습니다.");
+    }
+    } else {
+    // 사용자가 로그인되어 있지 않은 경우 모달 창을 띄우거나 다른 처리를 합니다.
+    alert("로그인이 필요합니다.");
+    }
+    },
+    error: function(xhr, status, error) {
+    console.error('로그인 상태 확인 중 오류가 발생했습니다.');
+    console.error('상태 코드:', status);
+    console.error('에러:', error);
+    }
+    });
+    }
+
+    function deletePost(postId) {
+    fetch('/api/v1/posts/post/' + postId, {
+    method: 'DELETE'
+    })
+    .then(response => {
+    if (response.ok) {
+    // 성공적으로 삭제된 경우
+    console.log('게시물이 성공적으로 삭제되었습니다.');
+    // 메인 페이지로 이동
+    window.location.href = '/api/v1/posts/main';
+    } else {
+    // 삭제 실패한 경우
+    console.error('게시물 삭제에 실패했습니다.');
+    }
+    })
+    .catch(error => {
+    console.error('네트워크 오류:', error);
+    });
+    }
     </script>
 
 </th:block>
