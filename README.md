@@ -6,8 +6,12 @@
 
  # 팀원 구성
  <img width="353" alt="스크린샷 2024-03-13 오전 9 39 18" src="https://github.com/4ourman/fourman/assets/128332821/bf80d398-c3eb-4d6d-9427-b69156154f16">
+ 
  팀장 : 이은재
+ 
  팀원 : 김성종, 최준영 이원재(중도 프로젝트 하차)
+
+<img width="748" alt="스크린샷 2024-03-13 오전 9 41 10" src="https://github.com/4ourman/fourman/assets/128332821/428fc763-e43c-4274-9218-10d4509d4c4c">
 
 
 # [프로젝트 정보]
