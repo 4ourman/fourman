@@ -29,6 +29,18 @@ v1 - 2024.02.20 ~ 2024.03.11 (총 21일)
 통합 환경 -> IntelliJ ( 파일 내부에 개발 환경 구현)
 데이터 베이스 -> MySQL
 
+# 개발 전 사용자 UI 구성을 위한 FIGMA 설계
+
+<img width="778" alt="스크린샷 2024-03-13 오전 9 43 35" src="https://github.com/4ourman/fourman/assets/128332821/af81bca1-97c9-46f2-845f-45d89aed5de9">
+
+# 개발 전 데이터베이스 임의 설계
+
+<img width="1230" alt="스크린샷 2024-03-13 오전 9 44 33" src="https://github.com/4ourman/fourman/assets/128332821/2b0ddf3e-14e0-4a24-8165-21b7910f824d">
+
+# 요구사항 명세서 작성
+<img width="1139" alt="스크린샷 2024-03-13 오전 9 47 02" src="https://github.com/4ourman/fourman/assets/128332821/1f0c2c08-3980-4649-9da5-fa095b154241">
+<img width="1149" alt="스크린샷 2024-03-13 오전 9 47 10" src="https://github.com/4ourman/fourman/assets/128332821/9773bc87-57bd-4d69-b54c-5db7ced43015">
+
 
 # [배포주소]
 로컬 주소 : localhost:8080/api/v1/posts/main
