@@ -1,7 +1,7 @@
 # [프로젝트 제목]
 술 관련 정보 공유 게시판
 
-# 주제 선정의 이유
+# 주제 선정 및 기획 의도
 <img width="941" alt="스크린샷 2024-03-13 오전 10 07 20" src="https://github.com/4ourman/fourman/assets/128332821/3c10dd27-7fd1-45cb-8de3-2913b2ecd658">
 
 
