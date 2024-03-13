@@ -1,6 +1,10 @@
 # [프로젝트 제목]
 술 관련 정보 공유 게시판
 
+# 주제 선정의 이유
+<img width="941" alt="스크린샷 2024-03-13 오전 10 07 20" src="https://github.com/4ourman/fourman/assets/128332821/3c10dd27-7fd1-45cb-8de3-2913b2ecd658">
+
+
 # 프로젝트 로고나 이미지
 <img width="147" alt="스크린샷 2024-03-12 오후 5 00 53" src="https://github.com/4ourman/fourman/assets/128332821/80722091-21de-4511-8ad6-33c603ce940c">
 
@@ -30,7 +34,10 @@ v1 - 2024.02.20 ~ 2024.03.11 (총 21일)
 
 개발 환경 :
 통합 환경 -> IntelliJ ( 파일 내부에 개발 환경 구현)
+<img width="53" alt="스크린샷 2024-03-13 오전 10 04 23" src="https://github.com/4ourman/fourman/assets/128332821/a096f09c-4a9f-48c5-b225-69f735e622cf">
+
 데이터 베이스 -> MySQL
+<img width="82" alt="스크린샷 2024-03-13 오전 10 04 43" src="https://github.com/4ourman/fourman/assets/128332821/ec46426c-c63a-4420-a25f-ee942702b36c">
 
 
 # 개발 전 사용자 UI 구성을 위한 FIGMA 설계
@@ -48,9 +55,6 @@ v1 - 2024.02.20 ~ 2024.03.11 (총 21일)
 
 # [배포주소]
 로컬 주소 : localhost:8080/api/v1/posts/main
-
-# [팀소개]
-술을 좋아하는 4인의 남자
 
 # [프로젝트 소개]
 
