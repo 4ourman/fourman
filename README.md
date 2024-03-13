@@ -4,6 +4,12 @@
 # 프로젝트 로고나 이미지
 <img width="147" alt="스크린샷 2024-03-12 오후 5 00 53" src="https://github.com/4ourman/fourman/assets/128332821/80722091-21de-4511-8ad6-33c603ce940c">
 
+ # 팀원 구성
+ <img width="353" alt="스크린샷 2024-03-13 오전 9 39 18" src="https://github.com/4ourman/fourman/assets/128332821/bf80d398-c3eb-4d6d-9427-b69156154f16">
+ 팀장 : 이은재
+ 팀원 : 김성종, 최준영 이원재(중도 프로젝트 하차)
+
+
 # [프로젝트 정보]
 
 프로젝트 목적 : 
